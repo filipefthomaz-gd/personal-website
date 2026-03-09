@@ -135,11 +135,23 @@ function renderStickyBar(config, projects) {
   );
 }
 
+function normalizeThumbnail(thumb) {
+  if (!thumb || !thumb.trim()) return '';
+  /* Absolute paths (/ or http) are fine as-is */
+  if (thumb.charAt(0) === '/' || thumb.indexOf('http') === 0) return thumb;
+  /* Already relative to parent (../...) */
+  if (thumb.indexOf('../') === 0) return thumb;
+  /* Relative from root — prepend ../ for work/ subpages */
+  return '../' + thumb;
+}
+
 function renderSections(config, projects) {
   var sections = projects.map(function(p, i) {
     var number = String(i + 1).padStart(2, '0');
     var hasContent = p.content && p.content.trim();
     var hasUrl = p.url && p.url !== '#';
+    var thumb = normalizeThumbnail(p.thumbnail);
+    var catLabel = getCategoryLabel(p.discipline, p.category);
 
     var externalBtn = hasUrl
       ? '<a href="' + p.url + '" class="project-external-link" target="_blank" rel="noopener noreferrer" aria-label="' + escapeHtml(config.linkLabel) + ': ' + escapeHtml(p.title) + '">' +
@@ -153,19 +165,42 @@ function renderSections(config, projects) {
           ? '<p class="project-section-description">' + escapeHtml(p.description) + '</p>'
           : '');
 
-    var catLabel = getCategoryLabel(p.discipline, p.category);
+    var eyebrow = (
+      '<div class="project-section-eyebrow">' +
+        '<span class="project-section-number" aria-hidden="true">' + number + '</span>' +
+        '<span class="tag" data-discipline="' + p.discipline + '">' + escapeHtml(catLabel) + '</span>' +
+      '</div>'
+    );
+    var titleRow = (
+      '<div class="project-section-title-row">' +
+        '<h2 class="project-section-title">' + escapeHtml(p.title) + '</h2>' +
+        externalBtn +
+      '</div>'
+    );
 
+    if (thumb) {
+      var coverStyle = p.coverPosition ? ' style="--cover-position: ' + p.coverPosition + '"' : '';
+      /* Option A: title overlay on image */
+      return (
+        '<section class="project-section project-section--has-cover" id="' + p.id + '" aria-label="' + escapeHtml(p.title) + '">' +
+          '<div class="project-cover"' + coverStyle + '>' +
+            '<img src="' + thumb + '" alt="' + escapeHtml(p.title) + '">' +
+            '<div class="project-cover-overlay">' +
+              eyebrow +
+              titleRow +
+            '</div>' +
+          '</div>' +
+          '<div class="project-section-inner">' + body + '</div>' +
+        '</section>'
+      );
+    }
+
+    /* No thumbnail: normal layout */
     return (
       '<section class="project-section" id="' + p.id + '" aria-label="' + escapeHtml(p.title) + '">' +
         '<div class="project-section-inner">' +
-          '<div class="project-section-eyebrow">' +
-            '<span class="project-section-number" aria-hidden="true">' + number + '</span>' +
-            '<span class="tag" data-discipline="' + p.discipline + '">' + escapeHtml(catLabel) + '</span>' +
-          '</div>' +
-          '<div class="project-section-title-row">' +
-            '<h2 class="project-section-title">' + escapeHtml(p.title) + '</h2>' +
-            externalBtn +
-          '</div>' +
+          eyebrow +
+          titleRow +
           body +
         '</div>' +
       '</section>'

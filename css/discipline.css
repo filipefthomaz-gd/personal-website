@@ -199,19 +199,81 @@
 }
 
 .project-section {
-  border-bottom: 1px solid var(--border);
   padding: var(--s7) var(--s4);
   /* push heading below sticky bar when jumping to anchor */
   scroll-margin-top: calc(var(--nav-height) + 72px);
 }
 
-.project-section:last-child {
-  border-bottom: none;
+.project-section + .project-section {
+  border-top: 1px solid var(--border);
+}
+
+.project-section + .project-section--has-cover {
+  padding-top: var(--s5);
 }
 
 .project-section-inner {
   max-width: var(--max-width);
   margin: 0 auto;
+}
+
+/* Project cover — hero image with title overlay */
+.project-cover {
+  position: relative;
+  width: 100%;
+  height: clamp(260px, 42vw, 480px);
+  overflow: hidden;
+  background-color: var(--surface);
+}
+
+.project-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--cover-position, center center);
+  display: block;
+}
+
+/* Gradient scrim + overlaid title */
+.project-cover-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--s7) var(--s4) var(--s4);
+  background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.72) 100%);
+}
+
+.project-cover-overlay .project-section-eyebrow {
+  margin-bottom: var(--s2);
+}
+
+.project-cover-overlay .project-section-number {
+  display: none;
+}
+
+.project-cover-overlay .tag {
+  background-color: var(--discipline-color, var(--accent));
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.project-cover-overlay .project-section-title {
+  color: #ffffff;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+
+.project-cover-overlay .project-section-title-row {
+  margin-bottom: 0;
+}
+
+/* Section with cover: strip outer padding so image bleeds edge-to-edge */
+.project-section--has-cover {
+  padding: 0;
+}
+
+.project-section--has-cover .project-section-inner {
+  padding: var(--s4) var(--s4) var(--s7);
 }
 
 /* Section number + header */
@@ -578,6 +640,10 @@
 
   .project-section {
     padding: var(--s5) var(--s2);
+  }
+
+  .project-section--has-cover .project-section-inner {
+    padding: var(--s3) var(--s2) var(--s5);
   }
 
   .project-section-title-row {

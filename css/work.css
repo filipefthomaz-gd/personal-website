@@ -52,18 +52,19 @@
   transform: scaleX(1);
 }
 
-/* Radial glow behind name on hover */
+/* Radial glow on hover */
 .discipline-panel::after {
   content: '';
   position: absolute;
   inset: 0;
   background: radial-gradient(
     circle at 30% 80%,
-    color-mix(in srgb, var(--discipline-color, var(--accent)) 12%, transparent),
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 18%, transparent),
     transparent 65%
   );
   opacity: 0;
   transition: opacity 300ms var(--ease);
+  pointer-events: none;
 }
 
 .discipline-panel:hover::after {
@@ -91,12 +92,23 @@
   height: 100%;
   object-fit: cover;
   opacity: 0.25;
-  transition: opacity 300ms var(--ease);
+  transition: opacity 300ms var(--ease), transform 400ms var(--ease);
   pointer-events: none;
+  transform: scale(1);
 }
 
 .discipline-panel:hover .discipline-panel-bg {
   opacity: 0.45;
+  transform: scale(1.06);
+}
+
+/* Groups all text content — styled per-theme */
+.discipline-panel-footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  position: relative;
+  z-index: 1;
 }
 
 .discipline-panel-meta {
@@ -107,33 +119,36 @@
   text-transform: uppercase;
   position: relative;
   z-index: 1;
-  transition: color 250ms var(--ease);
-}
-
-.discipline-panel:hover .discipline-panel-meta {
-  color: color-mix(in srgb, var(--discipline-color, var(--accent)) 80%, var(--text-muted));
 }
 
 .discipline-panel-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(1.75rem, 3.5vw, 3rem);
-  line-height: 1;
+  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
+  line-height: 1.1;
   letter-spacing: -0.02em;
-  color: var(--text);
+  color: #ffffff;
+  background-color: var(--discipline-color, var(--accent));
+  padding: 6px 14px;
+  border-radius: 8px;
+  align-self: flex-start;
   position: relative;
   z-index: 1;
-  transition: color 250ms var(--ease);
+  transition: filter 250ms var(--ease);
 }
 
 .discipline-panel:hover .discipline-panel-name {
-  color: color-mix(in srgb, var(--discipline-color, var(--accent)) 30%, var(--text));
+  filter: brightness(1.12);
 }
 
 .discipline-panel-sub {
   font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--text-muted);
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.9);
+  background-color: rgba(0,0,0,0.45);
+  padding: 3px 10px;
+  border-radius: 100px;
+  align-self: flex-start;
   position: relative;
   z-index: 1;
 }

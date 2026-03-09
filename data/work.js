@@ -36,7 +36,8 @@ const PROJECTS = [
     category: 'games',
     description: 'A solo-developed 2D story-driven video game about depression, empathy and compassion. Released on Steam, Switch and PlayStation.',
     url: 'https://store.steampowered.com/app/1238360/Into_A_Dream/',          // ← set to Steam URL if you want a single primary button in the header
-    thumbnail: '/assets/images/into-a-dream/main_autumn_logo.webp',     // ← add thumbnail path when ready
+    thumbnail: 'assets/images/into-a-dream/main_autumn_logo.webp',
+    coverPosition: 'center  100%',
     featured: true,
     content: `
       <p>Into A Dream is a 2D story-driven video game developed solo and released in 2020 on Steam
@@ -123,6 +124,7 @@ const PROJECTS = [
     description: 'A narrative-driven mobile game commissioned by the Portuguese Red Cross, addressing gender inequality, dating violence, and human trafficking for a teen audience. Released free on iOS and Android in 2022.',
     url: 'https://funpunchgames.com/play4equality.html',
     thumbnail: 'assets/images/play4equality/cover.jpg', // ← add a screenshot: assets/images/play4equality/cover.jpg
+    coverPosition: 'center  45%',
     featured: false,
     content: `
       <p>In 2021, <strong>Fun Punch Games</strong> — an independent studio based in Lisbon — came to me
@@ -276,9 +278,10 @@ const PROJECTS = [
     title: 'Freedom Again',
     discipline: 'stage',
     category: 'musicals',
-    description: 'An original musical/opera set against the independence of Portugal\'s African colonies. Composed, written, and directed by Filipe Thomaz. Performed at Estrela Hall, Lisbon, February 2018.',
+    description: 'An original musical/opera set against the independence of Portugal\'s African colonies. Performed at Estrela Hall, Lisbon, February 2018.',
     url: '#',
     thumbnail: 'assets/images/freedom-again/rehearsal_cast_2018.webp',
+    coverPosition: 'center  45%',
     featured: true,
     content: `
       <p>Freedom Again is a musical/opera composed and written by me between late 2010 and early 2012,
@@ -343,11 +346,12 @@ const PROJECTS = [
     discipline: 'print',
     category: 'writing',
     description: 'A short story born from the universe of Into A Dream — about two lighthouse keepers whose communication slowly fades, told through diary entries.',
-    url: 'LIGHTHOUSE_URL', // ← replace with the link to the first entry
-    thumbnail: '',
+    url: 'https://fthomaz.substack.com/p/the-lighthouse?', // ← replace with the link to the first entry
+    thumbnail: 'assets/images/lighthouse/thumbnail.jpg',
+    coverPosition: 'center 45%',
     featured: false,
     content: `
-      <p>The Lighthouse is a short story first mentioned in <a href="../work/screen.html#into-a-dream">Into A Dream</a>,
+      <p><b>The Lighthouse</b> is a short story first mentioned in <a href="../work/screen.html#into-a-dream">Into A Dream</a>,
       my solo-developed video game. It is a story within a story — written by the wife of the protagonist, Rita.
       She describes it in-game as a story about two lighthouse keepers who started communicating with one another
       using light signs. Eventually that communication starts fading over time; <em>"the despair of the one who
@@ -358,11 +362,80 @@ const PROJECTS = [
 
       <p>The short story is told through diary entries written by a woman — a representation of Rita herself.
       The first entry can be read here:
-      <a href="LIGHTHOUSE_URL" target="_blank" rel="noopener noreferrer">The Lighthouse ↗</a>.</p>
+      <a href="https://fthomaz.substack.com/p/the-lighthouse?" target="_blank" rel="noopener noreferrer">The Lighthouse ↗</a>.</p>
+    `,
+  },
+
+  {
+    id: 'jovem-indefinicao',
+    title: 'Jovem (In)Definição',
+    discipline: 'print',
+    category: 'writing',
+    description: 'A collection of over a hundred poems in Portuguese and English, written between 2011 and 2020 — a decade of youth, roughly from 19 to 29.',
+    url: '#',
+    thumbnail: '',
+    featured: false,
+    content: `
+      <p><em>Jovem (In)Definição</em> — roughly, <em>(Un)Certainty of Youth</em> — is a collection of
+      over a hundred poems written between 2011 and 2020, in Portuguese and English, across the stretch
+      of a decade that began at nineteen and ended at twenty-nine.</p>
+
+      <p>The title holds the tension the poems live in: <em>jovem</em> means young, and
+      <em>(in)definição</em> collapses definition and indefinition into the same word — the clarity and
+      the blur of it, the urgency to become something and the creeping suspicion that you don't quite
+      know what. These are poems written by someone still finding out.</p>
+
+      <p>They range widely in form and register — sparse and imagistic, sprawling and confessional,
+      tender, sardonic, occasionally absurd. Some were written in an afternoon; others carried for years
+      before they found their last line. What ties them together is less a theme than a period: the
+      particular restlessness of being young and paying close attention.</p>
     `,
   },
 
   /* ── MUSIC ────────────────────────────────────────── */
+    {
+    id: 'walking-in-the-woods',
+    title: 'Walking in the Woods',
+    discipline: 'music',
+    category: 'compositions',
+    description: 'A concept album written in 2010–2011 about an ill man who, approaching death, relives his life in a series of flashbacks.',
+    url: '#',
+    thumbnail: 'assets/images/walking-in-the-woods/thumbnail.png',
+    coverPosition: 'center  40%',
+    featured: true,
+    content: `
+      <p><em>Walking in the Woods</em> is a concept album I wrote in 2010 and 2011 for a band I was in at
+      the time. It tells the story of a man who, gravely ill and approaching the end of his life,
+      begins to relive his memories in a series of emotional flashbacks — tracing the arc of a life
+      from its brightest moments to its most painful.</p>
+
+      <p>Only <strong>Part 1</strong> was completed, covering the years from early childhood through
+      college. The songs explore the lightness and innocence of youth, the quiet fears and unanswerable
+      questions that begin to surface in adolescence — about the future, about existence itself — and
+      the withdrawal, isolation, and sadness that can accompany growing up. The album was heavily drawn
+      from personal experience.</p>
+
+      <p>It was never formally recorded. A few songs exist as <strong>acoustic renditions</strong>, but
+      the album lives, for now, as a written score and a collection of lyrics waiting for the right
+      moment.</p>
+
+      <h3>Sample Songs</h3>
+      <div class="embed-wrapper">
+        <iframe width="100%" height="166" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2279890088%3Fsecret_token%3Ds-nC8UL2LCEs1&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"">
+        </iframe>
+      </div>
+
+      <!-- Add audio when ready:
+      <h3>Listen</h3>
+      <audio controls style="width:100%; margin: var(--s3) 0;">
+        <source src="../assets/audio/walking-in-the-woods-sample.mp3" type="audio/mpeg">
+      </audio>
+      -->
+    `,
+  },
+  
+  
   {
     id: 'freedom-again-score',
     title: 'Freedom Again',
@@ -384,40 +457,6 @@ const PROJECTS = [
       <!--
       <audio controls style="width:100%; margin: var(--s3) 0;">
         <source src="../assets/audio/freedom-again-sample.mp3" type="audio/mpeg">
-      </audio>
-      -->
-    `,
-  },
-
-  {
-    id: 'walking-in-the-woods',
-    title: 'Walking in the Woods',
-    discipline: 'music',
-    category: 'compositions',
-    description: 'A concept album written in 2010–2011 about an ill man who, approaching death, relives his life in a series of flashbacks — from the innocence of childhood to the struggles of adolescence.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: `
-      <p><em>Walking in the Woods</em> is a concept album I wrote in 2010 and 2011 for a band I was in at
-      the time. It tells the story of a man who, gravely ill and approaching the end of his life,
-      begins to relive his memories in a series of emotional flashbacks — tracing the arc of a life
-      from its brightest moments to its most painful.</p>
-
-      <p>Only <strong>Part 1</strong> was completed, covering the years from early childhood through
-      college. The songs explore the lightness and innocence of youth, the quiet fears and unanswerable
-      questions that begin to surface in adolescence — about the future, about existence itself — and
-      the withdrawal, isolation, and sadness that can accompany growing up. The album was heavily drawn
-      from personal experience.</p>
-
-      <p>It was never formally recorded. A few songs exist as <strong>acoustic renditions</strong>, but
-      the album lives, for now, as a written score and a collection of lyrics waiting for the right
-      moment.</p>
-
-      <!-- Add audio when ready:
-      <h3>Listen</h3>
-      <audio controls style="width:100%; margin: var(--s3) 0;">
-        <source src="../assets/audio/walking-in-the-woods-sample.mp3" type="audio/mpeg">
       </audio>
       -->
     `,
@@ -460,7 +499,7 @@ const PROJECTS = [
     description: 'A short description — product, brand, or UI/UX work.',
     url: '#',
     thumbnail: '',
-    featured: true,
+    featured: false,
     content: `
       <p>Describe the design challenge, your process, and the outcome.
       Include screenshots, mockups, or a Figma embed.</p>
@@ -484,7 +523,8 @@ const PROJECTS = [
     category: 'engineering',
     description: 'Lead developer of the optical detection system and HbA1c cartridge within the spinit® — a centrifugal microfluidic point-of-care diagnostics platform. Co-author of 4 international patents.',
     url: 'https://www.biosurfit.com',
-    thumbnail: '',
+    thumbnail: 'assets/images/biosurfit/thumbnail.png',
+    coverPosition: 'center 55%',
     featured: false,
     content: `
       <p><a href="https://www.biosurfit.com" target="_blank" rel="noopener noreferrer">Biosurfit</a> is a
@@ -499,7 +539,7 @@ const PROJECTS = [
 
       <h3>Optical Detection System</h3>
 
-      <p>I was the <strong>lead developer of the spectrophotometric detection system</strong> within the spinit
+      <p>I was the <strong>lead developer of the spectrophotometric detection system prototype</strong> within the spinit
       reader. This subsystem uses a light source, diffuser, and photodetector array to measure light absorption
       and scattering as sample chambers pass through the beam during rotation — enabling real-time, continuous
       optical measurement without stopping the disc. I was responsible for the full development cycle: optical
@@ -507,7 +547,7 @@ const PROJECTS = [
 
       <h3>HbA1c Cartridge</h3>
 
-      <p>I was the <strong>core responsible for the development of the HbA1c cartridge</strong> — a key
+      <p>I was a <strong>team leader, engineer and product manager during the development of the HbA1c cartridge</strong> — a key
       commercial product for Biosurfit. HbA1c (glycated haemoglobin) reflects average blood glucose levels
       over the previous three months, making it the gold standard for diagnosing and monitoring diabetes.
       The spinit HbA1c cartridge delivers a IFCC- and NGSP-certified result from 0.008 ml of blood in
@@ -515,7 +555,7 @@ const PROJECTS = [
 
       <h3>Patents</h3>
 
-      <p>I am a co-author of four international patents filed during my time at Biosurfit:</p>
+      <p>I am a co-author of four international patents filed during my time at <b>Biosurfit</b>:</p>
 
       <p>
         <strong><a href="https://patents.google.com/patent/WO2019002321A1" target="_blank" rel="noopener noreferrer">WO2019002321A1</a> — Integrated Quality Control Device</strong><br>

@@ -1,0 +1,197 @@
+/* =========================================
+   THEME: Warm Editorial
+   =========================================
+   A softer, more playful alternative to
+   Electric Dark. Link AFTER style.css.
+   To switch back to dark, remove this <link>.
+   ========================================= */
+
+/* ---- New fonts ---- */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+/* ---- Variables ---- */
+:root {
+  /* Backgrounds — warm white + cream layers */
+  --bg:        #FAFAF8;
+  --surface:   #F2EDE3;
+  --surface-2: #E8E1D4;
+  --border:    #D4CABB;
+
+  /* Typography — warm ink */
+  --text:       #201D18;
+  --text-muted: #8C7E6C;
+
+  /* Accent — terracotta */
+  --accent: #C84B1E;
+
+  /* Discipline colors — deepened for legibility on light bg */
+  --screen:        #5B21B6;
+  --stage:         #B91C1C;
+  --print:         #92400E;
+  --music:         #0369A1;
+  --worldbuilding: #065F46;
+  --tech:          #C84B1E;
+
+  /* Fonts */
+  --font-display: 'Fraunces', serif;
+  --font-body:    'Lora', serif;
+
+  /* Radius tokens */
+  --radius:      14px;
+  --radius-sm:   8px;
+  --radius-pill: 100px;
+}
+
+/* ---- Nav — frosted glass on scroll ---- */
+.nav.scrolled {
+  background-color: rgba(251, 249, 244, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---- Project cards — shadow + rounded ---- */
+.project-card {
+  border-radius: var(--radius);
+  border-color: transparent;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 0 0 1px var(--border);
+}
+
+.project-card:hover {
+  box-shadow: 0 10px 36px rgba(0,0,0,0.12), 0 0 0 1px var(--border);
+  border-color: transparent;
+}
+
+/* Remove per-discipline border-color on hover (shadow does the job) */
+.project-card[data-discipline="screen"]:hover,
+.project-card[data-discipline="stage"]:hover,
+.project-card[data-discipline="print"]:hover,
+.project-card[data-discipline="music"]:hover,
+.project-card[data-discipline="worldbuilding"]:hover,
+.project-card[data-discipline="tech"]:hover {
+  border-color: transparent;
+}
+
+/* ---- Tags — pill shape ---- */
+.tag {
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Discipline grid — spaced, floating panels ---- */
+.discipline-grid {
+  gap: 12px;
+  padding: var(--s3);
+  background-color: var(--bg);
+}
+
+/* Light theme: full image + discipline-colored footer strip */
+.discipline-panel {
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 0;
+  transition: background-color 300ms var(--ease), transform 300ms var(--ease), box-shadow 300ms var(--ease), border-color 300ms var(--ease);
+}
+
+.discipline-panel:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.14);
+  border-color: var(--discipline-color, var(--accent));
+}
+
+/* Show image at 93% opacity, full on hover */
+.discipline-panel-bg {
+  display: block;
+  opacity: 0.93;
+}
+
+.discipline-panel:hover .discipline-panel-bg {
+  opacity: 1;
+}
+
+/* Per-discipline border color on hover */
+.discipline-panel[data-discipline="screen"]:hover        { border-color: var(--screen); }
+.discipline-panel[data-discipline="stage"]:hover         { border-color: var(--stage); }
+.discipline-panel[data-discipline="print"]:hover         { border-color: var(--print); }
+.discipline-panel[data-discipline="music"]:hover         { border-color: var(--music); }
+.discipline-panel[data-discipline="worldbuilding"]:hover { border-color: var(--worldbuilding); }
+.discipline-panel[data-discipline="tech"]:hover          { border-color: var(--tech); }
+
+/* Disable the radial glow — footer handles the strip */
+.discipline-panel::after {
+  display: none;
+}
+
+/* Footer div = the colored strip, sized to its content */
+.discipline-panel-footer {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 90%, transparent) 35%
+  );
+  padding: 20px var(--s4) 12px;
+  gap: 2px;
+  transition: filter 250ms var(--ease);
+}
+
+.discipline-panel:hover .discipline-panel-footer {
+  filter: brightness(1.08);
+}
+
+/* All text white on the colored strip */
+.discipline-panel-name {
+  color: #ffffff;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  align-self: stretch;
+}
+
+.discipline-panel-sub {
+  background-color: transparent;
+  color: rgba(255,255,255,0.8);
+}
+
+.discipline-panel-meta,
+.discipline-panel-arrow {
+  display: none;
+}
+
+/* ---- Buttons ---- */
+.store-link,
+.project-external-link {
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Discipline pill nav ---- */
+.pill {
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Discipline sticky bar ---- */
+.discipline-sticky-bar {
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background-color: rgba(250, 250, 248, 0.90);
+}
+
+/* ---- Embeds ---- */
+.embed-wrapper iframe {
+  border-radius: var(--radius-sm);
+  border-color: var(--border);
+}
+
+/* ---- Blockquotes ---- */
+.project-section-body blockquote {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background-color: var(--surface);
+}
+
+/* ---- Project cover — rounded in light theme ---- */
+.project-cover {
+  border-radius: var(--radius);
+}
+
+/* ---- Discipline page image thumbnails ---- */
+.project-card-thumb {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
