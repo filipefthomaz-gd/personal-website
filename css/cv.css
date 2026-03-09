@@ -1,0 +1,183 @@
+/* =========================================
+   CV PAGE
+   ========================================= */
+
+.cv-page {
+  padding-top: var(--nav-height);
+  min-height: 100dvh;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.cv-header {
+  border-bottom: 1px solid var(--border);
+  padding: var(--s7) var(--s4) var(--s6);
+}
+
+.cv-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.cv-name {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: var(--s2);
+}
+
+.cv-tagline {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: var(--s5);
+}
+
+.cv-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  transition: background-color 200ms var(--ease), border-color 200ms var(--ease);
+  text-decoration: none;
+}
+
+.cv-download-btn:hover {
+  background-color: var(--surface);
+  border-color: var(--text-muted);
+}
+
+/* =========================================
+   BODY LAYOUT
+   ========================================= */
+
+.cv-body {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--s4) var(--s8);
+}
+
+/* =========================================
+   SECTIONS
+   ========================================= */
+
+.cv-section {
+  padding: var(--s7) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cv-section:last-child {
+  border-bottom: none;
+}
+
+.cv-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--s5);
+}
+
+/* =========================================
+   ENTRIES
+   ========================================= */
+
+.cv-entries {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s6);
+}
+
+.cv-entry {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: var(--s4);
+}
+
+.cv-entry-meta {
+  padding-top: 3px;
+}
+
+.cv-entry-date {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.cv-entry-role {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.cv-entry-role a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--border);
+  transition: text-decoration-color 200ms var(--ease);
+}
+
+.cv-entry-role a:hover {
+  text-decoration-color: var(--accent);
+}
+
+.cv-entry-company {
+  font-size: 0.875rem;
+  color: var(--accent);
+  margin-bottom: var(--s2);
+  font-weight: 500;
+}
+
+.cv-entry-desc {
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.cv-entry-link {
+  display: inline-block;
+  margin-top: var(--s2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  transition: color 200ms var(--ease);
+}
+
+.cv-entry-link:hover {
+  color: var(--text);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .cv-entry {
+    grid-template-columns: 1fr;
+    gap: var(--s2);
+  }
+
+  .cv-entry-meta {
+    padding-top: 0;
+  }
+}

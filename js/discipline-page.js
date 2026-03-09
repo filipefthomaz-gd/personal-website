@@ -77,12 +77,20 @@
       subLabel: 'Design · Development · Engineering',
       linkLabel: 'View',
     },
+    visual: {
+      label: 'Visual',
+      color: 'var(--visual)',
+      colorHex: '#DB2777',
+      subLabel: 'Illustration · Art · Photography',
+      linkLabel: 'View',
+    },
   };
 
   var config = DISCIPLINES[discipline];
   if (!config) return;
 
   var projects = PROJECTS.filter(function(p) { return p.discipline === discipline; });
+  window._DISCIPLINE_PROJECTS = projects;
 
   /* ---- Update page title ---- */
   document.title = config.label + ' — Work — Filipe Thomaz';
@@ -98,7 +106,11 @@
 
   main.innerHTML = renderStickyBar(config, projects) +
     (config.intro ? renderIntro(config) : '') +
+    renderRoleFilters(projects) +
     renderSections(config, projects);
+
+  /* ---- Set up role filter interactions ---- */
+  setupRoleFilters();
 
   /* ---- Set up IntersectionObserver for pill active state ---- */
   setupObserver(projects);
@@ -239,31 +251,106 @@ function renderEmptyState(config) {
 }
 
 /* =========================================
-   INTERSECTION OBSERVER — active pill
+   ROLE FILTERS
+   ========================================= */
+
+function renderRoleFilters(projects) {
+  /* Collect unique roles across all projects in this discipline */
+  var rolesSet = {};
+  projects.forEach(function(p) {
+    if (p.roles && p.roles.length) {
+      p.roles.forEach(function(r) { rolesSet[r] = true; });
+    }
+  });
+  var roles = Object.keys(rolesSet).sort();
+  if (roles.length < 2) return ''; /* no point showing filter for 0–1 role */
+
+  var chips = roles.map(function(r) {
+    return '<button class="role-filter-chip" data-role="' + escapeHtml(r) + '" type="button">' + escapeHtml(r) + '</button>';
+  }).join('');
+
+  return (
+    '<div class="role-filters" id="role-filters" role="group" aria-label="Filter by role">' +
+      '<span class="role-filters-label">Role</span>' +
+      chips +
+    '</div>'
+  );
+}
+
+function setupRoleFilters() {
+  var container = document.getElementById('role-filters');
+  if (!container) return;
+
+  container.addEventListener('click', function(e) {
+    var chip = e.target.closest('.role-filter-chip');
+    if (!chip) return;
+
+    var role = chip.getAttribute('data-role');
+    var isActive = chip.classList.contains('active');
+
+    /* Toggle: clicking active chip clears filter */
+    container.querySelectorAll('.role-filter-chip').forEach(function(c) {
+      c.classList.remove('active');
+    });
+
+    if (isActive) {
+      /* Clear filter — show all */
+      document.querySelectorAll('.project-section').forEach(function(s) {
+        s.hidden = false;
+      });
+      return;
+    }
+
+    chip.classList.add('active');
+
+    /* Show only sections whose project has this role */
+    document.querySelectorAll('.project-section').forEach(function(section) {
+      var id = section.id;
+      var project = window._DISCIPLINE_PROJECTS && window._DISCIPLINE_PROJECTS.find(function(p) { return p.id === id; });
+      var hasRole = project && project.roles && project.roles.indexOf(role) !== -1;
+      section.hidden = !hasRole;
+    });
+  });
+}
+
+/* =========================================
+   SCROLL-BASED ACTIVE PILL
    ========================================= */
 
 function setupObserver(projects) {
   var stickyBar = document.getElementById('discipline-sticky-bar');
-  var stickyHeight = stickyBar ? stickyBar.offsetHeight : 72;
-  var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
 
-  var rootMarginTop = '-' + (navHeight + stickyHeight) + 'px';
+  var sections = projects.map(function(p) {
+    return document.getElementById(p.id);
+  }).filter(Boolean);
 
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        setActivePill(entry.target.id);
+  if (!sections.length) return;
+
+  function updateActivePill() {
+    var navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+    var stickyHeight = stickyBar ? stickyBar.offsetHeight : 72;
+    /* Threshold: a section becomes "active" once its top crosses this line */
+    var threshold = navHeight + stickyHeight + 32;
+
+    /* At bottom of page — always activate last section */
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+      setActivePill(projects[projects.length - 1].id);
+      return;
+    }
+
+    /* Last section whose top edge is at or above the threshold line */
+    var activeId = projects[0].id;
+    sections.forEach(function(section) {
+      if (section.getBoundingClientRect().top <= threshold) {
+        activeId = section.id;
       }
     });
-  }, {
-    rootMargin: rootMarginTop + ' 0px -60% 0px',
-    threshold: 0,
-  });
 
-  projects.forEach(function(p) {
-    var section = document.getElementById(p.id);
-    if (section) observer.observe(section);
-  });
+    setActivePill(activeId);
+  }
+
+  window.addEventListener('scroll', updateActivePill, { passive: true });
+  requestAnimationFrame(updateActivePill);
 }
 
 function setActivePill(id) {
@@ -312,6 +399,7 @@ function getCategoryLabel(discipline, category) {
     music:  { compositions: 'Compositions' },
     worldbuilding: { lore: 'Lore', maps: 'Maps', languages: 'Languages' },
     tech:   { design: 'Design', development: 'Development', engineering: 'Engineering' },
+    visual: { illustration: 'Illustration', art: 'Art', photography: 'Photography' },
   };
   return (map[discipline] && map[discipline][category]) ? map[discipline][category] : category;
 }

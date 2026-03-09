@@ -2,28 +2,35 @@
  * PROJECTS DATA
  * Add your projects here. Each entry appears on its discipline page.
  *
- * Fields:
- *   id          — unique slug (kebab-case, used as anchor: work/screen.html#id)
- *   title       — project display name
- *   discipline  — screen | stage | print | music | worldbuilding | tech
- *   category    — sub-category (see list below)
- *   description — 1–2 sentences shown when there is no inline content
- *   url         — external link (itch.io, Spotify, published piece, etc.)
- *                 Leave '#' or omit if there's no external link
- *   thumbnail   — relative path from site root, e.g. "assets/images/my-game.jpg"
- *                 Leave '' for placeholder
- *   featured    — true to show on homepage Selected Works (pick 3–4 max)
- *   content     — optional HTML string rendered as the inline project section body
- *                 Leave '' if description + external link is enough
- *                 Use full HTML: <p>, <img>, <iframe> embeds, etc.
+ * Core fields:
+ *   id               — unique slug (kebab-case, used as anchor: work/screen.html#id)
+ *   title            — project display name
+ *   discipline       — screen | stage | print | music | worldbuilding | tech | visual
+ *   category         — sub-category (see list below)
+ *   year             — number, e.g. 2020. For ranges use the end year.
+ *   status           — Released | Performed | Published | Ongoing | Concept | Archived
+ *   roles            — array of strings, e.g. ['Developer', 'Composer', 'Writer']
+ *   tags             — secondary disciplines this project touches, e.g. ['music', 'stage']
+ *   relatedProjects  — ids of related entries, e.g. ['freedom-again'] (links shown in section)
+ *   description      — 1–2 sentences shown on homepage cards and when there is no inline content
+ *   url              — external link (itch.io, Spotify, published piece, etc.)
+ *                      Leave '#' or omit if there's no external link
+ *   thumbnail        — relative path from site root, e.g. "assets/images/my-game.jpg"
+ *                      Leave '' for placeholder
+ *   coverPosition    — CSS object-position override, e.g. 'center 30%'. Default: 'center center'
+ *   featured         — true to show on homepage Selected Works (pick 3–4 max)
+ *   content          — optional HTML string rendered as the inline project section body
+ *                      Leave '' if description + external link is enough
+ *                      Use full HTML: <p>, <img>, <iframe> embeds, etc.
  *
  * Sub-categories per discipline:
- *   screen:        games | animation
+ *   screen:        games | animation | film | tv
  *   stage:         theatre | musicals
  *   print:         writing
  *   music:         compositions
  *   worldbuilding: lore | maps | languages
  *   tech:          design | development | engineering
+ *   visual:        illustration | art | photography
  */
 
 const PROJECTS = [
@@ -34,8 +41,13 @@ const PROJECTS = [
     title: 'Into A Dream',
     discipline: 'screen',
     category: 'games',
+    year: 2020,
+    status: 'Released',
+    roles: ['Developer', 'Writer', 'Composer', 'Artist', 'Voiceover Director'],
+    tags: ['music'],
+    relatedProjects: [],
     description: 'A solo-developed 2D story-driven video game about depression, empathy and compassion. Released on Steam, Switch and PlayStation.',
-    url: 'https://store.steampowered.com/app/1238360/Into_A_Dream/',          // ← set to Steam URL if you want a single primary button in the header
+    url: 'https://store.steampowered.com/app/1238360/Into_A_Dream/',
     thumbnail: 'assets/images/into-a-dream/main_autumn_logo.webp',
     coverPosition: 'center  100%',
     featured: true,
@@ -121,9 +133,14 @@ const PROJECTS = [
     title: 'Play4Equality',
     discipline: 'screen',
     category: 'games',
+    year: 2022,
+    status: 'Released',
+    roles: ['Developer', 'Narrative Director', 'Voiceover Director'],
+    tags: [],
+    relatedProjects: [],
     description: 'A narrative-driven mobile game commissioned by the Portuguese Red Cross, addressing gender inequality, dating violence, and human trafficking for a teen audience. Released free on iOS and Android in 2022.',
     url: 'https://funpunchgames.com/play4equality.html',
-    thumbnail: 'assets/images/play4equality/cover.jpg', // ← add a screenshot: assets/images/play4equality/cover.jpg
+    thumbnail: 'assets/images/play4equality/cover.jpg',
     coverPosition: 'center  45%',
     featured: false,
     content: `
@@ -160,24 +177,17 @@ const PROJECTS = [
       </p>
     `,
   },
-  {
-    id: 'animation-placeholder-01',
-    title: 'Your Animation Project',
-    discipline: 'screen',
-    category: 'animation',
-    description: 'A short description of this animated piece.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: '',
-  },
-
   /* ── STAGE ────────────────────────────────────────── */
   {
     id: 'lisbon-players',
     title: 'The Lisbon Players',
     discipline: 'stage',
     category: 'theatre',
+    year: 2019,
+    status: 'Performed',
+    roles: ['Lighting Designer', 'Actor', 'Singer', 'Director', 'Composer', 'Writer'],
+    tags: ['music'],
+    relatedProjects: ['freedom-again'],
     description: 'Twelve productions with The Lisbon Players over two and a half years, in roles spanning lighting design, acting, direction, composition, and writing.',
     url: '#',
     thumbnail: '',
@@ -278,6 +288,11 @@ const PROJECTS = [
     title: 'Freedom Again',
     discipline: 'stage',
     category: 'musicals',
+    year: 2018,
+    status: 'Performed',
+    roles: ['Director', 'Composer', 'Writer'],
+    tags: ['music'],
+    relatedProjects: ['freedom-again-score', 'lisbon-players'],
     description: 'An original musical/opera set against the independence of Portugal\'s African colonies. Performed at Estrela Hall, Lisbon, February 2018.',
     url: '#',
     thumbnail: 'assets/images/freedom-again/rehearsal_cast_2018.webp',
@@ -345,8 +360,13 @@ const PROJECTS = [
     title: 'The Lighthouse',
     discipline: 'print',
     category: 'writing',
+    year: 2020,
+    status: 'Published',
+    roles: ['Writer'],
+    tags: ['screen'],
+    relatedProjects: ['into-a-dream'],
     description: 'A short story born from the universe of Into A Dream — about two lighthouse keepers whose communication slowly fades, told through diary entries.',
-    url: 'https://fthomaz.substack.com/p/the-lighthouse?', // ← replace with the link to the first entry
+    url: 'https://fthomaz.substack.com/p/the-lighthouse?',
     thumbnail: 'assets/images/lighthouse/thumbnail.jpg',
     coverPosition: 'center 45%',
     featured: false,
@@ -371,6 +391,11 @@ const PROJECTS = [
     title: 'Jovem (In)Definição',
     discipline: 'print',
     category: 'writing',
+    year: 2020,
+    status: 'Archived',
+    roles: ['Writer'],
+    tags: [],
+    relatedProjects: [],
     description: 'A collection of over a hundred poems in Portuguese and English, written between 2011 and 2020 — a decade of youth, roughly from 19 to 29.',
     url: '#',
     thumbnail: '',
@@ -398,6 +423,11 @@ const PROJECTS = [
     title: 'Walking in the Woods',
     discipline: 'music',
     category: 'compositions',
+    year: 2011,
+    status: 'Concept',
+    roles: ['Composer', 'Writer'],
+    tags: [],
+    relatedProjects: [],
     description: 'A concept album written in 2010–2011 about an ill man who, approaching death, relives his life in a series of flashbacks.',
     url: '#',
     thumbnail: 'assets/images/walking-in-the-woods/thumbnail.png',
@@ -441,6 +471,11 @@ const PROJECTS = [
     title: 'Freedom Again',
     discipline: 'music',
     category: 'compositions',
+    year: 2018,
+    status: 'Performed',
+    roles: ['Composer'],
+    tags: ['stage'],
+    relatedProjects: ['freedom-again'],
     description: 'Full orchestral score for an original musical/opera. 300 pages of score, 600+ pages of individual parts across a full orchestra.',
     url: '#',
     thumbnail: '',
@@ -463,63 +498,17 @@ const PROJECTS = [
   },
 
   /* ── WORLDBUILDING ────────────────────────────────── */
-  {
-    id: 'world-placeholder-01',
-    title: 'Your World',
-    discipline: 'worldbuilding',
-    category: 'lore',
-    description: 'A short description of this world — genre, scope, or central idea.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: `
-      <p>Describe the world: its genre, the central tensions, history, factions.
-      This is where worldbuilding really shines — write as much as you want.</p>
-      <p>Add maps, character illustrations, excerpts from your lore documents.</p>
-    `,
-  },
-  {
-    id: 'world-placeholder-02',
-    title: 'World Map / Atlas',
-    discipline: 'worldbuilding',
-    category: 'maps',
-    description: 'A cartographic or diagrammatic exploration of a fictional geography.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: '',
-  },
 
   /* ── TECH ─────────────────────────────────────────── */
-  {
-    id: 'tech-design-01',
-    title: 'Your Design Project',
-    discipline: 'tech',
-    category: 'design',
-    description: 'A short description — product, brand, or UI/UX work.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: `
-      <p>Describe the design challenge, your process, and the outcome.
-      Include screenshots, mockups, or a Figma embed.</p>
-    `,
-  },
-  {
-    id: 'tech-dev-01',
-    title: 'Your Dev Project',
-    discipline: 'tech',
-    category: 'development',
-    description: 'A short description — app, library, or tool you built.',
-    url: '#',
-    thumbnail: '',
-    featured: false,
-    content: '',
-  },
   {
     id: 'biosurfit',
     title: 'Biosurfit',
     discipline: 'tech',
+    year: 2019,
+    status: 'Released',
+    roles: ['Engineer', 'Developer', 'Product Manager'],
+    tags: [],
+    relatedProjects: [],
     category: 'engineering',
     description: 'Lead developer of the optical detection system and HbA1c cartridge within the spinit® — a centrifugal microfluidic point-of-care diagnostics platform. Co-author of 4 international patents.',
     url: 'https://www.biosurfit.com',

@@ -194,6 +194,58 @@
    PROJECT SECTIONS
    ========================================= */
 
+/* =========================================
+   ROLE FILTERS
+   ========================================= */
+
+.role-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  padding: var(--s3) var(--s4);
+  border-bottom: 1px solid var(--border);
+}
+
+.role-filters-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-right: var(--s1);
+  flex-shrink: 0;
+}
+
+.role-filter-chip {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease), color 150ms var(--ease), border-color 150ms var(--ease);
+}
+
+.role-filter-chip:hover {
+  border-color: var(--discipline-color, var(--accent));
+  color: var(--discipline-color, var(--accent));
+}
+
+.role-filter-chip.active {
+  background-color: var(--discipline-color, var(--accent));
+  border-color: var(--discipline-color, var(--accent));
+  color: #ffffff;
+}
+
+/* =========================================
+   PROJECT SECTIONS
+   ========================================= */
+
 .project-sections {
   /* offset for nav + sticky bar */
 }

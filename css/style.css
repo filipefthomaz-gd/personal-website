@@ -23,6 +23,7 @@
   --music:         #0EA5E9;
   --worldbuilding: #059669;
   --tech:          #FF3E00;
+  --visual:        #DB2777;
 
   /* Fonts */
   --font-display: 'Clash Display', sans-serif;
@@ -298,6 +299,7 @@ body {
 .tag[data-discipline="music"]         { border-color: var(--music);         color: var(--music); }
 .tag[data-discipline="worldbuilding"] { border-color: var(--worldbuilding); color: var(--worldbuilding); }
 .tag[data-discipline="tech"]          { border-color: var(--tech);          color: var(--tech); }
+.tag[data-discipline="visual"]        { border-color: var(--visual);        color: var(--visual); }
 
 /* ---- Project cards ---- */
 
@@ -322,6 +324,7 @@ body {
 .project-card[data-discipline="music"]:hover         { border-color: var(--music); }
 .project-card[data-discipline="worldbuilding"]:hover { border-color: var(--worldbuilding); }
 .project-card[data-discipline="tech"]:hover          { border-color: var(--tech); }
+.project-card[data-discipline="visual"]:hover        { border-color: var(--visual); }
 
 .project-card-thumb {
   width: 100%;

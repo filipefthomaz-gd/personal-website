@@ -31,6 +31,7 @@
   --music:         #0369A1;
   --worldbuilding: #065F46;
   --tech:          #C84B1E;
+  --visual:        #9D174D;
 
   /* Fonts */
   --font-display: 'Fraunces', serif;
@@ -68,7 +69,8 @@
 .project-card[data-discipline="print"]:hover,
 .project-card[data-discipline="music"]:hover,
 .project-card[data-discipline="worldbuilding"]:hover,
-.project-card[data-discipline="tech"]:hover {
+.project-card[data-discipline="tech"]:hover,
+.project-card[data-discipline="visual"]:hover {
   border-color: transparent;
 }
 
@@ -115,6 +117,7 @@
 .discipline-panel[data-discipline="music"]:hover         { border-color: var(--music); }
 .discipline-panel[data-discipline="worldbuilding"]:hover { border-color: var(--worldbuilding); }
 .discipline-panel[data-discipline="tech"]:hover          { border-color: var(--tech); }
+.discipline-panel[data-discipline="visual"]:hover        { border-color: var(--visual); }
 
 /* Disable the radial glow — footer handles the strip */
 .discipline-panel::after {
