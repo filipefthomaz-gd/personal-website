@@ -1,0 +1,129 @@
+/* =========================================
+   PROJECTS PAGE — unified listing + filter bar
+   ========================================= */
+
+.projects-page {
+  padding-top: var(--nav-height);
+  min-height: 100dvh;
+}
+
+/* =========================================
+   STICKY FILTER BAR
+   ========================================= */
+
+.projects-filter-bar {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 90;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--s2) var(--s4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+}
+
+.filter-row::-webkit-scrollbar { display: none; }
+
+.filter-row + .filter-row {
+  border-top: 1px solid var(--border);
+}
+
+.filter-row--roles:empty {
+  display: none;
+}
+
+.filter-chip {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 150ms var(--ease), border-color 150ms var(--ease), background-color 150ms var(--ease);
+}
+
+.filter-chip:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.filter-chip.active {
+  background-color: var(--discipline-color, var(--accent));
+  border-color: var(--discipline-color, var(--accent));
+  color: #fff;
+}
+
+/* =========================================
+   PROJECT SECTIONS (override scroll margin
+   to account for filter bar)
+   ========================================= */
+
+.projects-page .project-section {
+  scroll-margin-top: calc(var(--nav-height) + 120px);
+}
+
+/* =========================================
+   ORGANISATION ENTRY (visually distinct)
+   ========================================= */
+
+.project-section--org {
+  border-left: 3px solid var(--discipline-color, var(--border));
+  background: color-mix(in srgb, var(--discipline-color, var(--surface)) 5%, var(--bg));
+}
+
+/* =========================================
+   DISCIPLINE LINK (→ full project on discipline page)
+   ========================================= */
+
+.project-discipline-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--discipline-color, var(--accent));
+  margin-top: var(--s2);
+  transition: opacity 200ms var(--ease);
+}
+
+.project-discipline-link:hover {
+  opacity: 0.7;
+}
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+
+.projects-empty {
+  padding: var(--s8) var(--s4);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+  .filter-row {
+    padding: var(--s2);
+  }
+}

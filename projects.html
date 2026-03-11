@@ -3,41 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Blog by Filipe Thomaz — thoughts on making things across disciplines.">
-  <title>Blog — Filipe Thomaz</title>
+  <meta name="description" content="All projects by Filipe Thomaz — filter by medium and role.">
+  <title>Projects — Filipe Thomaz</title>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://api.fontshare.com">
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&display=swap">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
-  <!-- Styles -->
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/discipline.css">
+  <link rel="stylesheet" href="./css/projects.css">
   <link rel="stylesheet" href="./css/theme-light.css">
-  <link rel="stylesheet" href="./css/blog.css">
 </head>
 <body>
 
-  <!-- ===== NAVIGATION ===== -->
   <nav class="nav scrolled" id="nav" role="navigation" aria-label="Main navigation">
     <a href="./index.html" class="nav-logo">Filipe Thomaz</a>
     <div class="nav-links">
-      <a href="./projects.html">Projects</a>
+      <a href="./projects.html" aria-current="page">Projects</a>
       <a href="./cv.html">CV</a>
-      <a href="./blog.html" aria-current="page">Blog</a>
+      <a href="./blog.html">Blog</a>
       <a href="./index.html#contact">Contact</a>
     </div>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
-  <!-- Mobile overlay -->
   <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">×</button>
     <nav class="nav-overlay-links">
@@ -48,41 +43,27 @@
     </nav>
   </div>
 
-  <!-- ===== MAIN ===== -->
-  <main class="blog-page">
-
-    <header class="blog-header">
-      <div class="container">
-        <div>
-          <p class="blog-header-sub">Words</p>
-          <h1 class="blog-header-title">Blog</h1>
-        </div>
-      </div>
-    </header>
-
-    <section class="blog-list-section">
-      <div class="container">
-        <div class="blog-list" id="blog-list" aria-label="Blog posts">
-          <p class="blog-loading" id="blog-loading">Loading posts…</p>
-        </div>
-      </div>
-    </section>
-
+  <main id="projects-main" class="projects-page">
+    <!-- Filter bar + project sections injected by projects.js -->
+    <noscript>
+      <p style="padding: 4rem 2rem; font-family: monospace; color: var(--text-muted);">
+        Enable JavaScript to browse projects.
+      </p>
+    </noscript>
   </main>
 
-  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <p class="footer-copy">© 2026 Filipe Thomaz</p>
     <div class="footer-links">
       <a href="./index.html">Home</a>
-      <a href="./projects.html">Projects</a>
+      <a href="./blog.html">Blog</a>
       <a href="./index.html#contact">Contact</a>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <script src="./data/work.js"></script>
+  <script src="./js/projects.js"></script>
   <script src="./js/main.js"></script>
-  <script src="./js/blog-list.js"></script>
 
 </body>
 </html>

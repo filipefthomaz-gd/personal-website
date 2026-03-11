@@ -13,11 +13,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
 
+  <!-- Preload discipline images so they're ready when the user scrolls to section 02 -->
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline-screen.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_stage.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_print.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_music.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_visual.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_tech.jpg">
+  <link rel="preload" as="image" href="./assets/images/disciplines/discipline_worldbuilding.jpeg">
+
   <!-- Styles -->
   <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/style.css">
-  <link rel="stylesheet" href="./css/theme-light.css">
+  <link rel="stylesheet" href="./css/work.css">
   <link rel="stylesheet" href="./css/home.css">
+  <link rel="stylesheet" href="./css/theme-light.css">
 </head>
 <body>
 
@@ -25,7 +35,7 @@
   <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
     <a href="#top" class="nav-logo">Filipe Thomaz</a>
     <div class="nav-links">
-      <a href="./work.html">Work</a>
+      <a href="#work">Projects</a>
       <a href="./cv.html">CV</a>
       <a href="./blog.html">Blog</a>
       <a href="#contact">Contact</a>
@@ -41,7 +51,7 @@
   <div class="nav-overlay" id="nav-overlay" role="dialog" aria-modal="true" aria-label="Navigation menu">
     <button class="nav-overlay-close" id="nav-overlay-close" aria-label="Close menu">×</button>
     <nav class="nav-overlay-links">
-      <a href="./work.html">Work</a>
+      <a href="#work">Projects</a>
       <a href="./cv.html">CV</a>
       <a href="./blog.html">Blog</a>
       <a href="#contact">Contact</a>
@@ -118,30 +128,166 @@
       </div>
     </section>
 
-    <!-- ─── FEATURED WORK ─────────────────────────────── -->
-    <section class="featured" id="work" aria-label="Featured Work">
+    <!-- ─── WORK ─────────────────────────────────────── -->
+    <section class="featured" id="work" aria-label="Work">
       <div class="container">
 
         <div class="featured-header reveal">
           <div class="featured-header-left">
             <div class="featured-number" aria-hidden="true">02</div>
-            <h2 class="featured-title">Selected Work</h2>
+            <h2 class="featured-title">Work</h2>
           </div>
-          <a href="./work.html" class="featured-link" aria-label="See all work">
-            All work <span class="arrow" aria-hidden="true">→</span>
-          </a>
+          <div class="view-toggle" role="group" aria-label="View by">
+            <button class="view-toggle-btn is-active" data-view="medium" type="button">By Medium</button>
+            <button class="view-toggle-btn" data-view="role" type="button">By Role</button>
+          </div>
         </div>
 
-        <div class="featured-grid" id="featured-grid" aria-label="Featured projects">
-          <!-- Cards injected by main.js from PROJECTS data -->
-          <!-- Fallback shown if JS is disabled -->
-          <noscript>
-            <p style="color: var(--text-muted); font-family: var(--font-mono); font-size: 0.875rem;">
-              Enable JavaScript to see featured projects.
-            </p>
-          </noscript>
+        <p class="work-view-hint" id="work-view-hint">Browse by the form the work takes — what it is.</p>
+
+        <div class="work-views">
+
+        <!-- BY MEDIUM: 7 discipline cards -->
+        <div class="work-view" id="view-medium" role="list">
+          <div class="medium-grid">
+
+            <a href="./projects.html?medium=screen" class="discipline-panel" data-discipline="screen" role="listitem" aria-label="Screen — Games and Animation">
+              <img src="./assets/images/disciplines/discipline-screen.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Screen</div>
+                <div class="discipline-panel-sub">Games · TV / Movies</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=stage" class="discipline-panel" data-discipline="stage" role="listitem" aria-label="Stage — Theatre and Musicals">
+              <img src="./assets/images/disciplines/discipline_stage.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Stage</div>
+                <div class="discipline-panel-sub">Theatre · Musicals</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=print" class="discipline-panel" data-discipline="print" role="listitem" aria-label="Writing — Poetry, Fiction, and Prose">
+              <img src="./assets/images/disciplines/discipline_print.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Writing</div>
+                <div class="discipline-panel-sub">Poetry · Fiction · Prose</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=music" class="discipline-panel" data-discipline="music" role="listitem" aria-label="Music — Compositions">
+              <img src="./assets/images/disciplines/discipline_music.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Music</div>
+                <div class="discipline-panel-sub">Compositions</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=visual" class="discipline-panel" data-discipline="visual" role="listitem" aria-label="Visual — Illustration, Art, and Photography">
+              <img src="./assets/images/disciplines/discipline_visual.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Visual</div>
+                <div class="discipline-panel-sub">Illustration · Art · Photography</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=tech" class="discipline-panel" data-discipline="tech" role="listitem" aria-label="Tech — Design, Development, and Engineering">
+              <img src="./assets/images/disciplines/discipline_tech.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Tech</div>
+                <div class="discipline-panel-sub">Design · Development · Engineering</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?medium=worldbuilding" class="discipline-panel" data-discipline="worldbuilding" role="listitem" aria-label="Worlds — Lore, Maps, and Languages">
+              <img src="./assets/images/disciplines/discipline_worldbuilding.jpeg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Worlds</div>
+                <div class="discipline-panel-sub">Lore · Maps · Languages</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+          </div>
         </div>
 
+        <!-- BY ROLE: 7 role category cards (order + colour mirrors BY MEDIUM) -->
+        <div class="work-view work-view--hidden" id="view-role" aria-hidden="true">
+          <div class="medium-grid" role="list">
+
+            <a href="./projects.html?role=Director" class="discipline-panel" data-discipline="screen" role="listitem" aria-label="Director">
+              <img src="./assets/images/roles/roles_director.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Director</div>
+                <div class="discipline-panel-sub">Film · Theatre · Voiceover</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Performer" class="discipline-panel" data-discipline="stage" role="listitem" aria-label="Performer">
+              <img src="./assets/images/roles/roles_performer.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Performer</div>
+                <div class="discipline-panel-sub">Actor · Singer · Voice</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Writer" class="discipline-panel" data-discipline="print" role="listitem" aria-label="Writer">
+              <img src="./assets/images/roles/roles_writer.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Writer</div>
+                <div class="discipline-panel-sub">Fiction · Scripts · Poetry</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Composer" class="discipline-panel" data-discipline="music" role="listitem" aria-label="Composer">
+              <img src="./assets/images/roles/roles_composer.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Composer</div>
+                <div class="discipline-panel-sub">Score · Song · Sound</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Artist" class="discipline-panel" data-discipline="visual" role="listitem" aria-label="Artist">
+              <img src="./assets/images/roles/roles_artist.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Artist</div>
+                <div class="discipline-panel-sub">Illustration · Art · Photography</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Designer" class="discipline-panel" data-discipline="tech" role="listitem" aria-label="Designer">
+              <img src="./assets/images/roles/roles_designer.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Designer</div>
+                <div class="discipline-panel-sub">UX · Lighting · Events</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+            <a href="./projects.html?role=Engineer" class="discipline-panel" data-discipline="worldbuilding" role="listitem" aria-label="Engineer">
+              <img src="./assets/images/roles/roles_engineer.jpg" alt="" class="discipline-panel-bg" aria-hidden="true" loading="lazy">
+              <div class="discipline-panel-footer">
+                <div class="discipline-panel-name">Engineer</div>
+                <div class="discipline-panel-sub">Development · Systems · Tech</div>
+                <span class="discipline-panel-arrow" aria-hidden="true">↗</span>
+              </div>
+            </a>
+
+          </div>
+        </div>
+
+        </div><!-- /.work-views -->
       </div>
     </section>
 

@@ -44,6 +44,7 @@ const PROJECTS = [
     year: 2020,
     status: 'Released',
     roles: ['Developer', 'Writer', 'Composer', 'Artist', 'Voiceover Director'],
+    roleCategories: ['Engineer', 'Writer', 'Composer', 'Artist', 'Director'],
     tags: ['music'],
     relatedProjects: [],
     description: 'A solo-developed 2D story-driven video game about depression, empathy and compassion. Released on Steam, Switch and PlayStation.',
@@ -136,6 +137,7 @@ const PROJECTS = [
     year: 2022,
     status: 'Released',
     roles: ['Developer', 'Narrative Director', 'Voiceover Director'],
+    roleCategories: ['Engineer', 'Director'],
     tags: [],
     relatedProjects: [],
     description: 'A narrative-driven mobile game commissioned by the Portuguese Red Cross, addressing gender inequality, dating violence, and human trafficking for a teen audience. Released free on iOS and Android in 2022.',
@@ -183,9 +185,11 @@ const PROJECTS = [
     title: 'The Lisbon Players',
     discipline: 'stage',
     category: 'theatre',
+    isOrganisation: true,
     year: 2019,
     status: 'Performed',
     roles: ['Lighting Designer', 'Actor', 'Singer', 'Director', 'Composer', 'Writer'],
+    roleCategories: ['Designer', 'Performer', 'Director', 'Composer', 'Writer'],
     tags: ['music'],
     relatedProjects: ['freedom-again'],
     description: 'Twelve productions with The Lisbon Players over two and a half years, in roles spanning lighting design, acting, direction, composition, and writing.',
@@ -291,6 +295,7 @@ const PROJECTS = [
     year: 2018,
     status: 'Performed',
     roles: ['Director', 'Composer', 'Writer'],
+    roleCategories: ['Director', 'Composer', 'Writer'],
     tags: ['music'],
     relatedProjects: ['freedom-again-score', 'lisbon-players'],
     description: 'An original musical/opera set against the independence of Portugal\'s African colonies. Performed at Estrela Hall, Lisbon, February 2018.',
@@ -332,6 +337,13 @@ const PROJECTS = [
       <strong>300 pages of orchestral score</strong>, which amounted to over <strong>600 pages</strong>
       of individual instrument sheet music.</p>
 
+      <h3>Sample Songs</h3>
+      <div class="embed-wrapper">
+        <iframe width="100%" height="166" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2281085873%3Fsecret_token%3Ds-uRC8Gqh2K3D&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+        </iframe>
+      </div>
+
       <div class="image-grid image-grid--masonry" style="--masonry-cols:3">
         <img src="../assets/images/freedom-again/programme_cover_2018.webp" alt="Freedom Again — Programme Cover, 2018">
         <img src="../assets/images/freedom-again/rehearsal_cast_2018.webp" alt="Freedom Again — full cast rehearsal, 2018">
@@ -339,6 +351,12 @@ const PROJECTS = [
         <img src="../assets/images/freedom-again/rehearsal_freddiecatarina_2018.webp" alt="Freedom Again — rehearsal, 2018">
         <img src="../assets/images/freedom-again/rehearsal_martafreddie_2018.webp" alt="Freedom Again — rehearsal, 2018">
         <img src="../assets/images/freedom-again/rehearsal_martaeva_2018.webp" alt="Freedom Again — rehearsal, 2018">
+        <img src="../assets/images/freedom-again/rehearsal_1.jpg" alt="Freedom Again — rehearsal, 2018">
+        <img src="../assets/images/freedom-again/rehearsal_2.jpg" alt="Freedom Again — rehearsal, 2018">
+        <img src="../assets/images/freedom-again/rehearsal_3.jpg" alt="Freedom Again — rehearsal, 2018">
+        <img src="../assets/images/freedom-again/rehearsal_4.jpg" alt="Freedom Again — rehearsal, 2018">
+        <img src="../assets/images/freedom-again/rehearsal_5.jpg" alt="Freedom Again — rehearsal, 2018">
+        <! -- img src="../assets/images/freedom-again/rehearsal_6.jpg" alt="Freedom Again — rehearsal, 2018" -->
       </div>
 
       <!-- Add more photos here as you collect them: -->
@@ -363,6 +381,7 @@ const PROJECTS = [
     year: 2020,
     status: 'Published',
     roles: ['Writer'],
+    roleCategories: ['Writer'],
     tags: ['screen'],
     relatedProjects: ['into-a-dream'],
     description: 'A short story born from the universe of Into A Dream — about two lighthouse keepers whose communication slowly fades, told through diary entries.',
@@ -394,6 +413,7 @@ const PROJECTS = [
     year: 2020,
     status: 'Archived',
     roles: ['Writer'],
+    roleCategories: ['Writer'],
     tags: [],
     relatedProjects: [],
     description: 'A collection of over a hundred poems in Portuguese and English, written between 2011 and 2020 — a decade of youth, roughly from 19 to 29.',
@@ -426,6 +446,7 @@ const PROJECTS = [
     year: 2011,
     status: 'Concept',
     roles: ['Composer', 'Writer'],
+    roleCategories: ['Composer', 'Writer'],
     tags: [],
     relatedProjects: [],
     description: 'A concept album written in 2010–2011 about an ill man who, approaching death, relives his life in a series of flashbacks.',
@@ -474,6 +495,7 @@ const PROJECTS = [
     year: 2018,
     status: 'Performed',
     roles: ['Composer'],
+    roleCategories: ['Composer'],
     tags: ['stage'],
     relatedProjects: ['freedom-again'],
     description: 'Full orchestral score for an original musical/opera. 300 pages of score, 600+ pages of individual parts across a full orchestra.',
@@ -504,9 +526,11 @@ const PROJECTS = [
     id: 'biosurfit',
     title: 'Biosurfit',
     discipline: 'tech',
+    isOrganisation: true,
     year: 2019,
     status: 'Released',
     roles: ['Engineer', 'Developer', 'Product Manager'],
+    roleCategories: ['Engineer'],
     tags: [],
     relatedProjects: [],
     category: 'engineering',

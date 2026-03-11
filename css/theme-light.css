@@ -198,3 +198,5 @@
 .project-card-thumb {
   border-radius: var(--radius) var(--radius) 0 0;
 }
+
+/* Homepage medium-grid panels inherit all .discipline-panel light-theme styles above */

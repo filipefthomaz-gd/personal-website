@@ -20,7 +20,7 @@
       label: 'Screen',
       color: 'var(--screen)',
       colorHex: '#7C3AED',
-      subLabel: 'Games · Animation',
+      subLabel: 'Games · TV / Movies',
       linkLabel: 'View',
     },
     stage: {

@@ -119,24 +119,38 @@
   setInterval(cycleRole, 2800);
 })();
 
-/* ---- Featured Work grid (homepage only) ---- */
-(function initFeaturedGrid() {
-  const grid = document.getElementById('featured-grid');
-  if (!grid) return;
+/* ---- Work section toggle + role list (homepage only) ---- */
+(function initWorkToggle() {
+  var viewMed  = document.getElementById('view-medium');
+  var viewRole = document.getElementById('view-role');
+  var hint     = document.getElementById('work-view-hint');
+  if (!viewMed || !viewRole) return;
 
-  // PROJECTS is defined in data/work.js (loaded before this script)
-  if (typeof PROJECTS === 'undefined') return;
+  var HINTS = {
+    medium: 'Browse by the form the work takes — what it is.',
+    role:   'Browse by what I did — how I was involved.',
+  };
 
-  const featured = PROJECTS.filter(function(p) { return p.featured; }).slice(0, 4);
+  /* Toggle between views */
+  document.querySelectorAll('.view-toggle-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var view = btn.getAttribute('data-view');
 
-  if (!featured.length) {
-    grid.innerHTML = '<p style="color:var(--text-muted);font-family:var(--font-mono);font-size:0.875rem;">No featured projects yet.</p>';
-    return;
-  }
+      document.querySelectorAll('.view-toggle-btn').forEach(function(b) {
+        b.classList.remove('is-active');
+      });
+      btn.classList.add('is-active');
 
-  grid.innerHTML = featured.map(function(p, i) {
-    return buildCard(p, i);
-  }).join('');
+      if (view === 'medium') {
+        viewMed.classList.remove('work-view--hidden');  viewMed.removeAttribute('aria-hidden');
+        viewRole.classList.add('work-view--hidden');    viewRole.setAttribute('aria-hidden', 'true');
+      } else {
+        viewMed.classList.add('work-view--hidden');     viewMed.setAttribute('aria-hidden', 'true');
+        viewRole.classList.remove('work-view--hidden'); viewRole.removeAttribute('aria-hidden');
+      }
+      if (hint) hint.textContent = HINTS[view];
+    });
+  });
 })();
 
 /* ---- Card builder (shared by home + work pages) ---- */

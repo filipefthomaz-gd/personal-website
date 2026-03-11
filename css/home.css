@@ -279,39 +279,114 @@
   letter-spacing: -0.02em;
 }
 
-.featured-link {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  white-space: nowrap;
-  transition: color 200ms var(--ease);
-  flex-shrink: 0;
+/* ---- BY MEDIUM / BY ROLE toggle ---- */
+
+.view-toggle {
+  display: flex;
+  gap: 2px;
+  border: 1px solid var(--border);
+  padding: 3px;
+  border-radius: 3px;
   align-self: flex-end;
   margin-bottom: 6px;
+  flex-shrink: 0;
 }
 
-.featured-link:hover {
-  color: var(--accent);
+.view-toggle-btn {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 150ms var(--ease), color 150ms var(--ease);
+  white-space: nowrap;
 }
 
-.featured-link .arrow {
-  display: inline-block;
-  transition: transform 200ms var(--ease);
+.view-toggle-btn.is-active {
+  background: var(--text);
+  color: var(--bg);
 }
 
-.featured-link:hover .arrow {
-  transform: translateX(4px);
+/* ---- View hint line ---- */
+
+.work-view-hint {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: var(--s3);
+  transition: opacity 120ms ease;
 }
 
-.featured-grid {
+/* ---- Work views — stacked in same grid cell so both stay composited ---- */
+
+.work-views {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--s3);
+  grid-template-columns: 100%;
+  grid-template-rows: auto;
+  margin-top: var(--s4);
+}
+
+/* Both views occupy the same cell and stack */
+.work-view {
+  grid-row: 1;
+  grid-column: 1;
+  transition: opacity 120ms ease, visibility 120ms ease;
+}
+
+/* Hidden view: invisible but still composited (no display:none) */
+.work-view--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ---- Medium grid ---- */
+
+.medium-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  column-gap: 2px;
+  row-gap: var(--s3);
+}
+
+/* ---- Discipline panels in homepage grid: compact aspect-ratio instead of full-height ---- */
+.medium-grid .discipline-panel {
+  min-height: unset;
+  aspect-ratio: 4 / 3;
+  will-change: transform;
+}
+
+/* Disable the color-mix() radial gradient — recomputed every frame, main hover cost */
+.medium-grid .discipline-panel::after {
+  display: none;
+}
+
+/* Promote image to its own GPU layer so scale() doesn't cause a repaint */
+.medium-grid .discipline-panel-bg {
+  will-change: transform;
+}
+
+/* Slightly smaller text for compact cards */
+.medium-grid .discipline-panel-name {
+  font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+}
+
+.medium-grid .discipline-panel-sub {
+  font-size: 0.6875rem;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 1100px) {
+  .medium-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -321,6 +396,17 @@
   .featured-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--s3);
+  }
+  .view-toggle {
+    align-self: flex-start;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .medium-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
