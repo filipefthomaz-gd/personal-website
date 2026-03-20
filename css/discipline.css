@@ -261,7 +261,7 @@
 }
 
 .project-section + .project-section--has-cover {
-  padding-top: var(--s5);
+  padding-top: 0;
 }
 
 .project-section-inner {
@@ -505,6 +505,11 @@
   max-width: 720px;
   border-collapse: collapse;
   margin: var(--s4) 0;
+}
+
+.production-table th {
+  padding: var(--s1) var(--s3) var(--s1) 0;
+  text-align: left;
 }
 
 .production-table tr {

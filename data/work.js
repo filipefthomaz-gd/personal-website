@@ -69,7 +69,7 @@ const PROJECTS = [
       <p>An article about Into A Dream was written by the <strong>Royal College of Psychiatrists</strong>
       about how, in their opinion, the story reflects reality and tackles the subject in a grounded,
       real, and humane way:
-      <a href="RCPSYCH_URL" target="_blank" rel="noopener noreferrer">RCPsych about Into A Dream ↗</a>.</p>
+      <a href="https://www.rcpsych.ac.uk/news-and-features/blogs/detail/cultural-blog/2020/08/11/into-a-dream" target="_blank" rel="noopener noreferrer">RCPsych about Into A Dream ↗</a>.</p>
 
       <h3>Trailer</h3>
 
@@ -111,6 +111,14 @@ const PROJECTS = [
           <p>"Into A Dream takes you on an emotional journey (...) that will inevitably touch you."</p>
           <cite>— Unaltered Magazine (8.3/10)</cite>
         </blockquote>
+      </div>
+      
+
+      <h3>OST Samples</h3>
+      <div class="embed-wrapper">
+        <iframe width="100%" height="350" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2203379933%3Fsecret_token%3Ds-rZCNb5IBvMH&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+        </iframe>
       </div>
 
       <h3>Screenshots</h3>
@@ -173,12 +181,84 @@ const PROJECTS = [
         <img src="../assets/images/play4equality/social_media_pictures.jpg" alt="Play4Equality">
         <img src="../assets/images/play4equality/ana_videochat.jpg" alt="Play4Equality">
         <img src="../assets/images/play4equality/camera_photo.jpg" alt="Play4Equality">
+        <img src="../assets/images/play4equality/play4equality-screenshot-2.jpg" alt="Play4Equality">
+        <img src="../assets/images/play4equality/play4equality-screenshot-3.jpg" alt="Play4Equality">
       </div>
       <p style="font-size:0.8125rem; color:var(--text-muted); margin-top:var(--s1);">
         Art by <a href="https://biankatdraws.artstation.com/projects/B3Rdg4" target="_blank" rel="noopener noreferrer">Bianca Milanez</a>.
       </p>
     `,
   },
+
+  {
+    id: 'bio-boom',
+    title: 'Bio Boom',
+    discipline: 'screen',
+    category: 'sketches',
+    year: 2011,
+    status: 'Completed',
+    roles: ['Director', 'Writer', 'Actor', 'Editor'],
+    roleCategories: ['Director', 'Writer', 'Performer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A collection of five comedy sketches written, recorded and presented as part of a high school senior project about BioDiesel and Fossil Fuels.',
+    url: '#',
+    thumbnail: 'assets/images/bioboom/thumbnail.webp',
+    coverPosition: 'center  40%',
+    featured: true,
+    content: `
+      <p><em>Bio Boom</em> was a high school senior project (2009) in the Escola Portuguesa de Moçambique in Maputo,
+       with the goal of creating awareness of Fossil Fuel consumption, benefits and drawbacks. It involved the creation
+       of a BioDiesel production machine using used oils, a simple theatre play for young kids, and the recording of 
+       five comedy sketches, presented to the entire high school students.</p>
+
+      <p>These sketches were originally written in Portuguese, and took on a comedic spin to address both edges of fossil fuel
+      consumption. The sketches where:</p>
+
+      <table class="production-table">
+        <thead>
+          <tr>
+            <th class="col-title">Name</th>
+            <th class="col-role">Actors</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="col-title">Disappearing</td>
+            <td class="col-role">Carlos Lobo · David Barbosa · Filipe F. Thomaz · Nuno Ribeiro · Oswaldo Noronha</td>
+          </tr>
+          <tr>
+            <td class="col-title">Bush</td>
+            <td class="col-role">Carlos Lobo · David Barbosa · David Leão · Filipe F. Thomaz · Prof. Pedro Malheiro</td>
+          </tr>
+          <tr>
+            <td class="col-title">Miner</td>
+            <td class="col-role">Carlos Lobo · David Barbosa · David Leão · Filipe F. Thomaz · Nuno Ribeiro</td>
+          </tr>
+          <tr>
+            <td class="col-title">Terror</td>
+            <td class="col-role">Carlos Lobo · David Barbosa · David Leão · Filipe F. Thomaz · Nuno Ribeiro · Oswaldo Noronha</td>
+          </tr>
+          <tr>
+            <td class="col-title">Scientist</td>
+            <td class="col-role">Carlos Lobo · David Barbosa · David Leão · Filipe F. Thomaz · Nuno Ribeiro · Oswaldo Noronha</td>
+          </tr>
+        
+        </tbody>
+      </table>
+
+       <div class="embed-wrapper ratio-16-9">
+        <iframe
+          src="https://www.youtube.com/embed/UsvxDZjC3Xw"
+          title="Bio Boom - Disappearing"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    `,
+  },
+
   /* ── STAGE ────────────────────────────────────────── */
   {
     id: 'lisbon-players',
@@ -390,7 +470,7 @@ const PROJECTS = [
     coverPosition: 'center 45%',
     featured: false,
     content: `
-      <p><b>The Lighthouse</b> is a short story first mentioned in <a href="../work/screen.html#into-a-dream">Into A Dream</a>,
+      <p><b>The Lighthouse</b> is a short story first mentioned in <a href="../projects.html#into-a-dream">Into A Dream</a>,
       my solo-developed video game. It is a story within a story — written by the wife of the protagonist, Rita.
       She describes it in-game as a story about two lighthouse keepers who started communicating with one another
       using light signs. Eventually that communication starts fading over time; <em>"the despair of the one who
@@ -437,6 +517,43 @@ const PROJECTS = [
     `,
   },
 
+  {
+    id: 'pulsar',
+    title: 'Pulsar - The Physics and Technology of...',
+    discipline: 'print',
+    category: 'writing',
+    year: 2012-2014,
+    status: 'Archived',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A regular column in Revista <i>Pulsar</i> exploring the inner workings of a common day object.',
+    url: '#',
+    thumbnail: 'assets/images/pulsar/thumbnail.png',
+    coverPosition: 'center 70%',
+    featured: false,
+    content: `
+      <p><i><b>The Physics and Technology of...</b></i> was a regular column I created and wrote for 
+      <em>Pulsar</em> magazine between 2012 and 2014. Published each semester, each installment
+      explored the inner workings of a common day object — from clocks to TVs — breaking down 
+      the physics and engineering behind how they work.</p>
+      
+      <p><i>Pulsar</i> magazine was edited by the <b>Physics Engineering Student Nucleus</b> at 
+      Instituto Superior Técnico. This column aimed to make science accessible and engaging, 
+      revealing the fascinating technology hidden in everyday life.</p>
+
+      <div class="image-grid image-grid--masonry" style="--masonry-cols:4">
+        <!-- Add screenshots: -->
+        <img src="../assets/images/pulsar/pulsar-tv.png" alt="Pulsar — TV">
+        <img src="../assets/images/pulsar/pulsar-3d.png" alt="Pulsar — 3D Cinema">
+        <img src="../assets/images/pulsar/pulsar-microfone.png" alt="Pulsar — Microphone">
+        <img src="../assets/images/pulsar/pulsar-relogio.png" alt="Pulsar — Clock">
+      </div>
+
+    `,
+  },
+
   /* ── MUSIC ────────────────────────────────────────── */
     {
     id: 'walking-in-the-woods',
@@ -472,8 +589,8 @@ const PROJECTS = [
 
       <h3>Sample Songs</h3>
       <div class="embed-wrapper">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no"
-          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%3Atracks%3A2279890088%3Fsecret_token%3Ds-nC8UL2LCEs1&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"">
+        <iframe width="100%" height="350" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2204909246%3Fsecret_token%3Ds-0SFuz2yMp1N&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
         </iframe>
       </div>
 
@@ -482,6 +599,7 @@ const PROJECTS = [
       <audio controls style="width:100%; margin: var(--s3) 0;">
         <source src="../assets/audio/walking-in-the-woods-sample.mp3" type="audio/mpeg">
       </audio>
+      
       -->
     `,
   },
@@ -516,6 +634,78 @@ const PROJECTS = [
         <source src="../assets/audio/freedom-again-sample.mp3" type="audio/mpeg">
       </audio>
       -->
+    `,
+  },
+
+  {
+    id: '24-piano-reveries',
+    title: '24 Piano Reveries',
+    discipline: 'music',
+    category: 'compositions',
+    year: 2015,
+    status: 'Concept',
+    roles: ['Composer'],
+    roleCategories: ['Composer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A solo piano cycle of 24 short pieces — one for each major and minor key, arranged through the circle of fifths. Inspired by the economy and emotional directness of Chopin\'s Preludes.',
+    url: '#',
+    thumbnail: 'assets/images/24-piano-reveries/thumbnail.jpg',
+    featured: false,
+    content: `
+      <p><em>24 Piano Reveries</em> is a solo piano cycle of twenty-four short pieces — one for each
+      major and minor key, arranged through the circle of fifths. Inspired by the economy and emotional
+      directness of Chopin's Preludes, each piece is a self-contained mood: a single musical thought,
+      fully stated and then released.</p>
+
+      <p>The cycle moves through the keys in the traditional pairing of major and relative minor —
+      C major before A minor, G major before E minor — tracing the full orbit of the harmonic
+      universe in twenty-four steps.</p>
+
+      <h3>The Pieces</h3>
+
+      <table class="production-table">
+        <thead>
+          <tr>
+            <th class="col-date">No.</th>
+            <th class="col-title">Key</th>
+            <th class="col-role">Dedication</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="col-date">01</td><td class="col-title">C major</td><td class="col-role">Lúcia F. Thomaz</td></tr>
+          <tr><td class="col-date">02</td><td class="col-title">A minor</td><td class="col-role">-</td></tr>
+          <tr><td class="col-date">03</td><td class="col-title">G major</td><td class="col-role">Inês F. Thomaz</td></tr>
+          <tr><td class="col-date">04</td><td class="col-title">E minor</td><td class="col-role">Lia Pereira</td></tr>
+          <tr><td class="col-date">05</td><td class="col-title">D major</td><td class="col-role">-</td></tr>
+          <tr><td class="col-date">06</td><td class="col-title">B minor</td><td class="col-role">Helena Reis</td></tr>
+          <tr><td class="col-date">07</td><td class="col-title">A major</td><td class="col-role">Miguel Aleluia</td></tr>
+          <tr><td class="col-date">08</td><td class="col-title">F♯ minor</td><td class="col-role">Duarte Fontes</td></tr>
+          <tr><td class="col-date">09</td><td class="col-title">E major</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">10</td><td class="col-title">C♯ minor</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">11</td><td class="col-title">B major</td><td class="col-role">Fernando e Isilda - Avós</td></tr>
+          <tr><td class="col-date">12</td><td class="col-title">G♯ minor</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">13</td><td class="col-title">F♯ major</td><td class="col-role">Beatriz F. Thomaz</td></tr>
+          <tr><td class="col-date">14</td><td class="col-title">D♯ minor</td><td class="col-role">Ana Marta Pinto</td></tr>
+          <tr><td class="col-date">15</td><td class="col-title">D♭ major</td><td class="col-role">Carlos Lobo</td></tr>
+          <tr><td class="col-date">16</td><td class="col-title">B♭ minor</td><td class="col-role">-</td></tr>
+          <tr><td class="col-date">17</td><td class="col-title">A♭ major</td><td class="col-role">Sofia Vaz</td></tr>
+          <tr><td class="col-date">18</td><td class="col-title">F minor</td><td class="col-role">Fabienne Guimarães</td></tr>
+          <tr><td class="col-date">19</td><td class="col-title">E♭ major</td><td class="col-role">Manuel F. Thomaz</td></tr>
+          <tr><td class="col-date">20</td><td class="col-title">C minor</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">21</td><td class="col-title">B♭ major</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">22</td><td class="col-title">G minor</td><td class="col-role">—</td></tr>
+          <tr><td class="col-date">23</td><td class="col-title">F major</td><td class="col-role">Mani e Lili - Avós</td></tr>
+          <tr><td class="col-date">24</td><td class="col-title">D minor</td><td class="col-role">—</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Sample Songs</h3>
+      <div class="embed-wrapper">
+        <iframe width="100%" height="350" scrolling="no" frameborder="no"
+          src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%3Aplaylists%3A2204959418%3Fsecret_token%3Ds-OZsk50yQW14&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+        </iframe>
+      </div>
     `,
   },
 

@@ -37,6 +37,9 @@
   var currentMedium = params.get('medium') || '';
   var currentRole   = params.get('role')   || '';
 
+  /* ---- Role categories (fixed — must be before renderFilterBar()) ---- */
+  var ROLE_CATEGORIES = ['Director', 'Performer', 'Writer', 'Composer', 'Artist', 'Designer', 'Engineer'];
+
   /* ---- Initial render ---- */
   main.innerHTML =
     renderFilterBar() +
@@ -46,54 +49,54 @@
     '</div>';
 
   applyAccentColor();
-  applyFilters();   /* show/hide based on initial URL params */
-  renderRoleChips();
+  applyFilters();
+  updateFilterUI();  /* sync bar to initial URL state */
   setupFilters();
+  setupProjectPicker();
 
   /* =========================================
      FILTER BAR
      ========================================= */
 
   function renderFilterBar() {
-    var mediumChips = MEDIUMS.map(function(m) {
+    var medChips = MEDIUMS.slice(1).map(function(m) {
       var active = m.slug === currentMedium ? ' active' : '';
-      return (
-        '<button class="filter-chip' + active + '" data-medium="' + m.slug + '" type="button">' +
-          esc(m.label) +
-        '</button>'
-      );
+      return '<button class="filter-chip' + active + '" data-medium="' + m.slug + '" type="button">' + esc(m.label) + '</button>';
     }).join('');
+
+    var roleOptions = '<option value="">All Roles</option>' +
+      ROLE_CATEGORIES.map(function(r) {
+        return '<option value="' + esc(r) + '"' + (r === currentRole ? ' selected' : '') + '>' + esc(r) + '</option>';
+      }).join('');
 
     return (
       '<div class="projects-filter-bar" id="projects-filter-bar">' +
-        '<div class="filter-row filter-row--medium">' + mediumChips + '</div>' +
-        '<div class="filter-row filter-row--roles" id="projects-role-row"></div>' +
+        '<div class="filter-selects">' +
+          '<div class="filter-medium-chips" id="filter-medium-chips">' + medChips + '</div>' +
+          '<div class="filter-role-wrap">' +
+            '<label class="filter-select-label" for="filter-role-select">Role</label>' +
+            '<select class="filter-select" id="filter-role-select">' + roleOptions + '</select>' +
+          '</div>' +
+          '<div class="project-picker" id="project-picker">' +
+            '<button class="project-picker-btn" id="project-picker-btn" type="button" aria-haspopup="listbox" aria-expanded="false">' +
+              '<span class="project-picker-label" id="project-picker-label">—</span>' +
+              '<span class="project-picker-arrow" aria-hidden="true">▾</span>' +
+            '</button>' +
+            '<div class="project-picker-dropdown" id="project-picker-dropdown" hidden role="listbox"></div>' +
+          '</div>' +
+        '</div>' +
+        //'<nav class="pill-nav projects-pill-nav" id="projects-pill-nav" aria-label="Jump to project"></nav>' +
       '</div>'
     );
   }
 
-  function renderRoleChips() {
-    var roleRow = document.getElementById('projects-role-row');
-    if (!roleRow) return;
-
-    /* Collect role categories from projects matching current MEDIUM (ignoring role filter) */
-    var rolesSet = {};
-    PROJECTS.forEach(function(p) {
-      if (currentMedium && p.discipline !== currentMedium) return;
-      if (p.roleCategories) p.roleCategories.forEach(function(r) { rolesSet[r] = true; });
+  function updateFilterUI() {
+    document.querySelectorAll('#filter-medium-chips .filter-chip').forEach(function(c) {
+      c.classList.toggle('active', c.dataset.medium === currentMedium);
     });
-    var roles = Object.keys(rolesSet).sort();
 
-    if (!roles.length) { roleRow.innerHTML = ''; return; }
-
-    roleRow.innerHTML = roles.map(function(r) {
-      var active = r === currentRole ? ' active' : '';
-      return (
-        '<button class="filter-chip filter-chip--role' + active + '" data-role="' + esc(r) + '" type="button">' +
-          esc(r) +
-        '</button>'
-      );
-    }).join('');
+    var roleSel = document.getElementById('filter-role-select');
+    if (roleSel) roleSel.value = currentRole;
   }
 
   /* =========================================
@@ -113,7 +116,6 @@
 
       if (show) {
         visibleCount++;
-        /* Keep numbering sequential for visible sections */
         var numEl = section.querySelector('.project-section-number');
         if (numEl) numEl.textContent = String(visibleCount).padStart(2, '0');
       }
@@ -121,6 +123,63 @@
 
     var emptyEl = document.getElementById('projects-empty');
     if (emptyEl) emptyEl.hidden = visibleCount > 0;
+
+    updateFilterUI();
+    buildProjectPickerItems();
+    setCurrentProject(null);
+    //updatePillNav();
+  }
+
+  function updatePillNav() {
+    var nav = document.getElementById('projects-pill-nav');
+    if (!nav) return;
+
+    var sections = document.querySelectorAll('#projects-list .project-section:not([hidden])');
+    if (!sections.length) { nav.innerHTML = ''; return; }
+
+    nav.innerHTML = Array.from(sections).map(function(section) {
+      var titleEl = section.querySelector('.project-section-title');
+      var label   = titleEl ? titleEl.textContent.trim() : section.id;
+      if (label.length > 28) label = label.slice(0, 27) + '…';
+      return '<a href="#' + section.id + '" class="pill-nav-item" data-pill="' + section.id + '">' + label + '</a>';
+    }).join('');
+  }
+
+  function setupScrollActivePill() {
+    var filterBar = document.getElementById('projects-filter-bar');
+
+    function setActivePill(id) {
+      var nav = document.getElementById('projects-pill-nav');
+      if (!nav) return;
+      nav.querySelectorAll('.pill-nav-item').forEach(function(pill) {
+        var active = pill.dataset.pill === id;
+        pill.classList.toggle('active', active);
+        if (active) pill.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      });
+    }
+
+    function update() {
+      var barH      = filterBar ? filterBar.offsetHeight : 80;
+      var navH      = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+      var threshold = navH + barH + 16;
+
+      var visible = Array.from(document.querySelectorAll('#projects-list .project-section:not([hidden])'));
+      if (!visible.length) return;
+
+      if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+        setActivePill(visible[visible.length - 1].id);
+        return;
+      }
+
+      var activeId = visible[0].id;
+      visible.forEach(function(s) {
+        if (s.getBoundingClientRect().top <= threshold) activeId = s.id;
+      });
+      setActivePill(activeId);
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    requestAnimationFrame(update);
   }
 
   /* =========================================
@@ -157,6 +216,11 @@
       '</div>'
     );
 
+    /* Specific roles line (actual roles, not categories) */
+    var rolesLine = (p.roles && p.roles.length)
+      ? '<p class="project-roles-line">' + p.roles.map(esc).join(' · ') + '</p>'
+      : '';
+
     /* Full content HTML — fix ../ paths (content authored for /work/ subdirectory) */
     var body = '';
     if (p.content && p.content.trim()) {
@@ -180,16 +244,136 @@
             '<img src="' + thumb + '" alt="' + esc(p.title) + '" loading="lazy">' +
             '<div class="project-cover-overlay">' + eyebrow + titleRow + '</div>' +
           '</div>' +
-          '<div class="project-section-inner">' + body + '</div>' +
+          '<div class="project-section-inner">' + rolesLine + body + '</div>' +
         '</section>'
       );
     }
 
     return (
       '<section class="project-section' + orgClass + '" id="' + p.id + '"' + dataAttrs + ' aria-label="' + esc(p.title) + '">' +
-        '<div class="project-section-inner">' + eyebrow + titleRow + body + '</div>' +
+        '<div class="project-section-inner">' + eyebrow + titleRow + rolesLine + body + '</div>' +
       '</section>'
     );
+  }
+
+  /* =========================================
+     PROJECT PICKER — chip + dropdown navigator
+     ========================================= */
+
+  function buildProjectPickerItems() {
+    var dropdown = document.getElementById('project-picker-dropdown');
+    if (!dropdown) return;
+
+    var sections = Array.from(document.querySelectorAll('#projects-list .project-section:not([hidden])'));
+    if (!sections.length) { dropdown.innerHTML = ''; return; }
+
+    dropdown.innerHTML = sections.map(function(section, idx) {
+      var numEl   = section.querySelector('.project-section-number');
+      var titleEl = section.querySelector('.project-section-title');
+      var num   = numEl   ? numEl.textContent.trim()   : String(idx + 1).padStart(2, '0');
+      var label = titleEl ? titleEl.textContent.trim() : section.id;
+      if (label.length > 36) label = label.slice(0, 35) + '…';
+      return (
+        '<button class="project-picker-item" role="option" data-target="' + section.id + '" type="button">' +
+          '<span class="project-picker-item-num">' + esc(num) + '</span>' +
+          '<span class="project-picker-item-title">' + esc(label) + '</span>' +
+        '</button>'
+      );
+    }).join('');
+  }
+
+  function setCurrentProject(sectionId) {
+    var label    = document.getElementById('project-picker-label');
+    var dropdown = document.getElementById('project-picker-dropdown');
+    if (!label) return;
+
+    var section = sectionId ? document.getElementById(sectionId) : null;
+    if (section) {
+      var numEl   = section.querySelector('.project-section-number');
+      var titleEl = section.querySelector('.project-section-title');
+      var num   = numEl   ? numEl.textContent.trim() : '';
+      var title = titleEl ? titleEl.textContent.trim() : sectionId;
+      if (title.length > 28) title = title.slice(0, 27) + '…';
+      label.textContent = num + ' · ' + title;
+    } else {
+      var visible = document.querySelectorAll('#projects-list .project-section:not([hidden])');
+      label.textContent = visible.length + (visible.length === 1 ? ' project' : ' projects');
+    }
+
+    if (dropdown) {
+      dropdown.querySelectorAll('.project-picker-item').forEach(function(item) {
+        item.classList.toggle('current', item.dataset.target === sectionId);
+      });
+    }
+  }
+
+  function setupProjectPicker() {
+    var picker    = document.getElementById('project-picker');
+    var btn       = document.getElementById('project-picker-btn');
+    var dropdown  = document.getElementById('project-picker-dropdown');
+    var filterBar = document.getElementById('projects-filter-bar');
+    if (!picker || !btn || !dropdown) return;
+
+    btn.addEventListener('click', function() {
+      var isOpen = !dropdown.hidden;
+      dropdown.hidden = isOpen;
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var current = dropdown.querySelector('.project-picker-item.current');
+        if (current) current.scrollIntoView({ block: 'nearest' });
+      }
+    });
+
+    dropdown.addEventListener('click', function(e) {
+      var item = e.target.closest('.project-picker-item[data-target]');
+      if (!item) return;
+      var target = document.getElementById(item.dataset.target);
+      if (target) {
+        var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+        var barH = filterBar ? filterBar.offsetHeight : 56;
+        var top = target.getBoundingClientRect().top + window.scrollY - navH - barH;
+        window.scrollTo({ top: top, behavior: 'smooth' });
+      }
+      setCurrentProject(item.dataset.target);
+      dropdown.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!picker.contains(e.target)) {
+        dropdown.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    var _rafPending = false;
+    function onScroll() {
+      if (_rafPending) return;
+      _rafPending = true;
+      requestAnimationFrame(function() {
+        _rafPending = false;
+        var barH = filterBar ? filterBar.offsetHeight : 80;
+        var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
+        var threshold = navH + barH + 32;
+
+        var visible = Array.from(document.querySelectorAll('#projects-list .project-section:not([hidden])'));
+        if (!visible.length) { setCurrentProject(null); return; }
+
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8) {
+          setCurrentProject(visible[visible.length - 1].id);
+          return;
+        }
+
+        var activeId = visible[0].id;
+        visible.forEach(function(s) {
+          if (s.getBoundingClientRect().top <= threshold) activeId = s.id;
+        });
+        setCurrentProject(activeId);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    requestAnimationFrame(onScroll);
   }
 
   /* =========================================
@@ -197,32 +381,28 @@
      ========================================= */
 
   function setupFilters() {
-    var bar = document.getElementById('projects-filter-bar');
-    if (!bar) return;
+    var chips  = document.getElementById('filter-medium-chips');
+    var roleSel = document.getElementById('filter-role-select');
 
-    bar.addEventListener('click', function(e) {
-      var chip = e.target.closest('.filter-chip');
-      if (!chip) return;
-
-      if (chip.dataset.medium !== undefined) {
-        currentMedium = chip.dataset.medium;
+    if (chips) {
+      chips.addEventListener('click', function(e) {
+        var chip = e.target.closest('.filter-chip[data-medium]');
+        if (!chip) return;
+        /* Toggle: clicking active chip clears filter */
+        currentMedium = chip.dataset.medium === currentMedium ? '' : chip.dataset.medium;
         currentRole   = '';
-        bar.querySelectorAll('.filter-chip[data-medium]').forEach(function(c) {
-          c.classList.toggle('active', c.dataset.medium === currentMedium);
-        });
+        if (roleSel) roleSel.value = '';
         applyAccentColor();
-        renderRoleChips();          /* new medium → refresh role chips */
-      } else if (chip.dataset.role !== undefined) {
-        var clicked = chip.dataset.role;
-        currentRole = currentRole === clicked ? '' : clicked;
-        bar.querySelectorAll('.filter-chip--role').forEach(function(c) {
-          c.classList.toggle('active', c.dataset.role === currentRole);
-        });
-      }
+        updateURL(); applyFilters();
+      });
+    }
 
-      updateURL();
-      applyFilters();               /* just toggles hidden — no DOM rewrite */
-    });
+    if (roleSel) {
+      roleSel.addEventListener('change', function() {
+        currentRole = this.value;
+        updateURL(); applyFilters();
+      });
+    }
   }
 
   /* =========================================
