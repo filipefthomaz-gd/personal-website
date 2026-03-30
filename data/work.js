@@ -713,6 +713,57 @@ const PROJECTS = [
 
   /* ── TECH ─────────────────────────────────────────── */
   {
+    id: 'flow',
+    title: 'Flow',
+    discipline: 'tech',
+    category: 'development',
+    year: 2025,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer', 'Writer'],
+    roleCategories: ['Engineer', 'Writer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A YAML-inspired dialogue scripting language and C# runtime for interactive narrative in games. Designed as a better Ink — with built-in support for interruptions, simultaneous tracks, timed choices, and AI integration.',
+    url: 'https://filipefthomaz-gd.github.io/flow-documentation/',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Flow</strong> is a C# (.NET Standard 2.1) library that parses and executes a YAML-inspired
+      dialogue scripting language designed for interactive narrative in games. It is built as a
+      <strong>better <a href="https://www.inklestudios.com/ink/" target="_blank" rel="noopener noreferrer">Ink</a></strong> —
+      taking the best of Ink's readable, writer-friendly syntax and going further by being designed
+      from the ground up for games.</p>
+
+      <h3>Core Features</h3>
+
+      <ul>
+        <li><strong>Readable syntax</strong> — indentation-based, YAML-inspired script that writers can
+        author without thinking about implementation details.</li>
+        <li><strong>Interruption system</strong> — inspired by <em>Oxenfree</em>, Flow has first-class
+        support for <code>SIMULTANEOUS</code> tracks, <code>END_INTERRUPTION</code>, and mid-dialogue
+        interjections, enabling characters to talk over each other naturally.</li>
+        <li><strong>Rich branching</strong> — player choices (<code>?:</code>), conditional branches
+        (<code>IF</code> / <code>ELSE IF</code> / <code>ELSE</code>), multi-condition nodes, and
+        <code>RANDOM</code> selection built in.</li>
+        <li><strong>Dialogue tunnelling</strong> — reusable dialogue blocks that return to the caller,
+        reducing duplication across scripts.</li>
+        <li><strong>Game-first metadata</strong> — audio cues, pause timing, and delivery metadata are
+        first-class citizens of the data model, not afterthoughts.</li>
+        <li><strong>LSP-ready validation</strong> — <code>FlowValidator.Validate()</code> returns
+        structured diagnostics with line and column info, designed for editor tooling.</li>
+        <li><strong>AI / LLM integration path</strong> — the architecture is designed to incrementally
+        support LLM-generated lines and dynamic condition evaluation without breaking the authored
+        workflow.</li>
+      </ul>
+
+      <p>
+        <a href="https://filipefthomaz-gd.github.io/flow-documentation/" target="_blank" rel="noopener noreferrer">Read the documentation ↗</a>
+      </p>
+    `,
+  },
+
+  {
     id: 'biosurfit',
     title: 'Biosurfit',
     discipline: 'tech',
