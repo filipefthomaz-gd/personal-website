@@ -420,7 +420,9 @@
 /* Prose: narrow for readability */
 .project-section-body p,
 .project-section-body h3,
-.project-section-body h4 {
+.project-section-body h4,
+.project-section-body ul,
+.project-section-body ol {
   max-width: 680px;
 }
 
@@ -432,6 +434,29 @@
 }
 
 .project-section-body p strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.project-section-body ul,
+.project-section-body ol {
+  padding-left: var(--s4);
+  margin-bottom: var(--s3);
+  list-style: disc;
+}
+
+.project-section-body ol {
+  list-style: decimal;
+}
+
+.project-section-body li {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: var(--s2);
+}
+
+.project-section-body li strong {
   color: var(--text);
   font-weight: 500;
 }
