@@ -1,6 +1,7 @@
 /* =========================================
    PROJECTS.JS
    All-projects page: medium + role filter,
+   accordion per-project, discipline separators,
    URL param sync, accent colour shift.
 
    Performance: sections are rendered ONCE to DOM.
@@ -32,6 +33,12 @@
     visual: 'View', tech: 'View', worldbuilding: 'Explore',
   };
 
+  var DISCIPLINE_COLORS = {
+    screen: 'var(--screen)', stage: 'var(--stage)', print: 'var(--print)',
+    music: 'var(--music)', visual: 'var(--visual)', tech: 'var(--tech)',
+    worldbuilding: 'var(--worldbuilding)',
+  };
+
   /* ---- State from URL ---- */
   var params = new URLSearchParams(window.location.search);
   var currentMedium = params.get('medium') || '';
@@ -40,11 +47,24 @@
   /* ---- Role categories (fixed — must be before renderFilterBar()) ---- */
   var ROLE_CATEGORIES = ['Director', 'Performer', 'Writer', 'Composer', 'Artist', 'Designer', 'Engineer'];
 
-  /* ---- Initial render ---- */
+  /* ---- Initial render with discipline grouping ---- */
+  var projectHtml = '';
+  var prevDiscipline = '';
+  var globalIndex = 0;
+
+  PROJECTS.forEach(function(p) {
+    if (p.discipline !== prevDiscipline) {
+      projectHtml += renderDisciplineSeparator(p.discipline);
+    }
+    prevDiscipline = p.discipline;
+    projectHtml += renderSection(p, globalIndex);
+    globalIndex++;
+  });
+
   main.innerHTML =
     renderFilterBar() +
     '<div class="projects-list" id="projects-list">' +
-      PROJECTS.map(function(p, i) { return renderSection(p, i); }).join('') +
+      projectHtml +
       '<p class="projects-empty" id="projects-empty" hidden>Nothing here — try a different filter.</p>' +
     '</div>';
 
@@ -52,6 +72,7 @@
   applyFilters();
   updateFilterUI();  /* sync bar to initial URL state */
   setupFilters();
+  setupAccordion();
   setupProjectPicker();
 
   /* =========================================
@@ -121,6 +142,20 @@
       }
     });
 
+    resetAccordion();
+
+    /* Toggle discipline separators based on visible projects */
+    document.querySelectorAll('#projects-list .discipline-separator').forEach(function(sep) {
+      /* Find the next separator or end of list — if any projects between them are visible, show separator */
+      var next = sep.nextElementSibling;
+      var hasVisible = false;
+      while (next && !next.classList.contains('discipline-separator')) {
+        if (next.matches('.project-section') && !next.hidden) { hasVisible = true; break; }
+        next = next.nextElementSibling;
+      }
+      sep.hidden = !hasVisible;
+    });
+
     var emptyEl = document.getElementById('projects-empty');
     if (emptyEl) emptyEl.hidden = visibleCount > 0;
 
@@ -128,6 +163,16 @@
     buildProjectPickerItems();
     setCurrentProject(null);
     //updatePillNav();
+  }
+
+  function resetAccordion() {
+    document.querySelectorAll('#projects-list .project-section--expanded').forEach(function(section) {
+      var header = section.querySelector('.project-accordion-header');
+      var collapse = section.querySelector('.project-collapse');
+      if (header) header.setAttribute('aria-expanded', 'false');
+      if (collapse) collapse.classList.remove('open');
+      section.classList.remove('project-section--expanded');
+    });
   }
 
   function updatePillNav() {
@@ -183,7 +228,23 @@
   }
 
   /* =========================================
-     SECTION RENDERER (called once on init)
+     DISCIPLINE SEPARATOR
+     ========================================= */
+
+  function renderDisciplineSeparator(discipline) {
+    var label = MEDIUM_LABELS[discipline] || discipline;
+    var color = DISCIPLINE_COLORS[discipline] || 'var(--accent)';
+    return (
+      '<div class="discipline-separator" style="--discipline-color: ' + color + '">' +
+        '<span class="discipline-separator-line"></span>' +
+        '<span class="discipline-separator-label" style="color: ' + color + '">' + esc(label) + '</span>' +
+        '<span class="discipline-separator-line"></span>' +
+      '</div>'
+    );
+  }
+
+  /* =========================================
+     SECTION RENDERER (accordion per-project)
      ========================================= */
 
   function renderSection(p, i) {
@@ -194,6 +255,8 @@
     var thumb      = p.thumbnail && p.thumbnail.trim() ? p.thumbnail : '';
     var orgClass   = p.isOrganisation ? ' project-section--org' : '';
     var rolesAttr  = (p.roleCategories || []).join('|');
+
+    var chevron = '';
 
     var eyebrow = (
       '<div class="project-section-eyebrow">' +
@@ -213,6 +276,7 @@
       '<div class="project-section-title-row">' +
         '<h2 class="project-section-title">' + esc(p.title) + '</h2>' +
         externalBtn +
+        chevron +
       '</div>'
     );
 
@@ -230,28 +294,43 @@
           .replace(/href="\.\.\//g, 'href="') +
         '</div>';
     } else if (p.description) {
-      body = '<p class="project-section-description">' + esc(p.description) + '</p>';
+      body = '<div class="project-section-body"><p class="project-section-description">' + esc(p.description) + '</p></div>';
     }
 
     /* data-medium and data-roles are used by applyFilters() for fast show/hide */
     var dataAttrs = ' data-medium="' + p.discipline + '" data-roles="' + esc(rolesAttr) + '"';
 
+    var headerAttrs = 'class="project-accordion-header" role="button" tabindex="0" aria-expanded="false"';
+
     if (thumb) {
       var coverStyle = p.coverPosition ? ' style="--cover-position: ' + p.coverPosition + '"' : '';
       return (
-        '<section class="project-section project-section--has-cover' + orgClass + '" id="' + p.id + '"' + dataAttrs + ' aria-label="' + esc(p.title) + '">' +
-          '<div class="project-cover"' + coverStyle + '>' +
-            '<img src="' + thumb + '" alt="' + esc(p.title) + '" loading="lazy">' +
-            '<div class="project-cover-overlay">' + eyebrow + titleRow + '</div>' +
+        '<section class="project-section project-section--has-cover' + orgClass + '" data-discipline="' + p.discipline + '" id="' + p.id + '"' + dataAttrs + ' aria-label="' + esc(p.title) + '">' +
+          '<div ' + headerAttrs + '>' +
+            '<div class="project-cover"' + coverStyle + '>' +
+              '<img src="' + thumb + '" alt="' + esc(p.title) + '" loading="lazy">' +
+              '<div class="project-cover-overlay">' + eyebrow + titleRow + '</div>' +
+            '</div>' +
           '</div>' +
-          '<div class="project-section-inner">' + rolesLine + body + '</div>' +
+          '<div class="project-collapse">' +
+            '<div class="project-collapse-inner">' +
+              '<div class="project-section-inner">' + rolesLine + body + '</div>' +
+            '</div>' +
+          '</div>' +
         '</section>'
       );
     }
 
     return (
-      '<section class="project-section' + orgClass + '" id="' + p.id + '"' + dataAttrs + ' aria-label="' + esc(p.title) + '">' +
-        '<div class="project-section-inner">' + eyebrow + titleRow + rolesLine + body + '</div>' +
+      '<section class="project-section' + orgClass + '" data-discipline="' + p.discipline + '" id="' + p.id + '"' + dataAttrs + ' aria-label="' + esc(p.title) + '">' +
+        '<div ' + headerAttrs + '>' +
+          '<div class="project-section-inner">' + eyebrow + titleRow + '</div>' +
+        '</div>' +
+        '<div class="project-collapse">' +
+          '<div class="project-collapse-inner">' +
+            '<div class="project-section-inner" style="padding-top:0;">' + rolesLine + body + '</div>' +
+          '</div>' +
+        '</div>' +
       '</section>'
     );
   }
@@ -333,6 +412,11 @@
         var barH = filterBar ? filterBar.offsetHeight : 56;
         var top = target.getBoundingClientRect().top + window.scrollY - navH - barH;
         window.scrollTo({ top: top, behavior: 'smooth' });
+
+        /* Expand the accordion for the selected project */
+        if (typeof setupAccordion !== 'undefined' && setupAccordion.expandSection) {
+          setupAccordion.expandSection(target);
+        }
       }
       setCurrentProject(item.dataset.target);
       dropdown.hidden = true;
@@ -374,6 +458,81 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     requestAnimationFrame(onScroll);
+  }
+
+  /* =========================================
+     ACCORDION — click header to expand/collapse
+     ========================================= */
+
+function setupAccordion() {
+    var currentOpen = null; /* section element or null */
+    var filterBar = document.getElementById('projects-filter-bar');
+
+    document.querySelectorAll('.project-accordion-header').forEach(function(header) {
+      header.addEventListener('click', function(e) {
+        if (e.target.closest('.project-external-link')) return;
+        toggleSection(this);
+      });
+
+      header.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (!e.target.closest('.project-external-link')) toggleSection(this);
+        }
+      });
+    });
+
+    function toggleSection(header) {
+      var section = header.closest('.project-section');
+      var collapse = section.querySelector('.project-collapse');
+      var isOpen = collapse.classList.contains('open');
+
+      /* Close previously open section if different */
+      if (currentOpen && currentOpen !== section) {
+        var prevHeader = currentOpen.querySelector('.project-accordion-header');
+        var prevCollapse = currentOpen.querySelector('.project-collapse');
+        if (prevHeader) prevHeader.setAttribute('aria-expanded', 'false');
+        if (prevCollapse) prevCollapse.classList.remove('open');
+        currentOpen.classList.remove('project-section--expanded');
+      }
+
+      if (isOpen) {
+        collapse.classList.remove('open');
+        header.setAttribute('aria-expanded', 'false');
+        section.classList.remove('project-section--expanded');
+        currentOpen = null;
+      } else {
+        collapse.classList.add('open');
+        header.setAttribute('aria-expanded', 'true');
+        section.classList.add('project-section--expanded');
+        currentOpen = section;
+      }
+    }
+
+    /* Expose for external use */
+    return {
+      expandSection: function(section) {
+        if (!section) return;
+        var header = section.querySelector('.project-accordion-header');
+        if (header) {
+          /* Close current if different */
+          if (currentOpen && currentOpen !== section) {
+            var pH = currentOpen.querySelector('.project-accordion-header');
+            var pC = currentOpen.querySelector('.project-collapse');
+            if (pH) pH.setAttribute('aria-expanded', 'false');
+            if (pC) pC.classList.remove('open');
+            currentOpen.classList.remove('project-section--expanded');
+          }
+var collapse = section.querySelector('.project-collapse');
+          if (collapse && !collapse.classList.contains('open')) {
+            collapse.classList.add('open');
+            header.setAttribute('aria-expanded', 'true');
+            section.classList.add('project-section--expanded');
+            currentOpen = section;
+          }
+        }
+      }
+    };
   }
 
   /* =========================================

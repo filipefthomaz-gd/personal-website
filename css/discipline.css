@@ -269,14 +269,50 @@
   margin: 0 auto;
 }
 
-/* Project cover — hero image with title overlay */
+/* Cover hover: colored border inside + zoom */
 .project-cover {
   position: relative;
   width: 100%;
   height: clamp(260px, 42vw, 480px);
-  overflow: hidden;
   background-color: var(--surface);
+  overflow: hidden;
 }
+
+/* Show colored border on hover via pseudo-element */
+.project-cover::after,
+.project-section--has-cover:hover .project-cover::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 0px solid var(--discipline-color);
+  pointer-events: none;
+  transition: border-left 300ms var(--ease);
+  z-index: 10;
+}
+
+.project-cover:hover::after,
+.project-section--has-cover:hover .project-cover::after {
+  border-left: 6px solid var(--discipline-color);
+}
+
+/* Per-discipline colors */
+.project-section--has-cover[data-discipline="screen"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="screen"]:hover .project-cover::after { border-left-color: var(--screen); }
+.project-section--has-cover[data-discipline="stage"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="stage"]:hover .project-cover::after { border-left-color: var(--stage); }
+.project-section--has-cover[data-discipline="print"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="print"]:hover .project-cover::after { border-left-color: var(--print); }
+.project-section--has-cover[data-discipline="music"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="music"]:hover .project-cover::after { border-left-color: var(--music); }
+.project-section--has-cover[data-discipline="worldbuilding"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="worldbuilding"]:hover .project-cover::after { border-left-color: var(--worldbuilding); }
+.project-section--has-cover[data-discipline="tech"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="tech"]:hover .project-cover::after { border-left-color: var(--tech); }
+.project-section--has-cover[data-discipline="visual"] .project-cover:hover::after,
+.project-section--has-cover[data-discipline="visual"]:hover .project-cover::after { border-left-color: var(--visual); }
 
 .project-cover img {
   width: 100%;
@@ -284,6 +320,11 @@
   object-fit: cover;
   object-position: var(--cover-position, center center);
   display: block;
+  transition: transform 600ms var(--ease);
+}
+
+.project-section:hover .project-cover img {
+  transform: scale(1.05);
 }
 
 /* Gradient scrim + overlaid title */

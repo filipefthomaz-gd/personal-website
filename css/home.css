@@ -181,7 +181,7 @@
   font-family: var(--font-mono);
   font-size: clamp(4rem, 10vw, 8rem);
   font-weight: 400;
-  color: var(--border);
+  color: var(--text-muted);
   line-height: 1;
   margin-bottom: var(--s4);
   user-select: none;
@@ -267,7 +267,7 @@
   font-family: var(--font-mono);
   font-size: clamp(4rem, 10vw, 8rem);
   font-weight: 400;
-  color: var(--border);
+  color: var(--text-muted);
   line-height: 1;
   user-select: none;
 }
@@ -355,30 +355,177 @@
   row-gap: var(--s3);
 }
 
-/* ---- Discipline panels in homepage grid: compact aspect-ratio instead of full-height ---- */
+/* ---- Discipline panels in homepage grid: bold colors, visible images, smooth hover ---- */
 .medium-grid .discipline-panel {
-  min-height: unset;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background-color: var(--surface);
   aspect-ratio: 4 / 3;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0;
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    border-color 250ms var(--ease);
   will-change: transform;
 }
 
-/* Disable the color-mix() radial gradient — recomputed every frame, main hover cost */
+.medium-grid .discipline-panel:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+  border-color: var(--discipline-color, var(--accent));
+}
+
+.medium-grid .discipline-panel:active {
+  transform: translateY(-2px);
+  transition-duration: 100ms;
+}
+
+/* Background image — fully visible, stretches edge to edge */
+.medium-grid .discipline-panel-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.85;
+  transition: opacity 350ms var(--ease), transform 450ms var(--ease-out);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.medium-grid .discipline-panel:hover .discipline-panel-bg {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+/* Dark scrim at the bottom so text is always readable */
 .medium-grid .discipline-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 80%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  pointer-events: none;
+}
+
+/* Footer — compact, gradient bleeds from bottom with a colored stripe at the very bottom edge */
+.medium-grid .discipline-panel-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 100%;
+  padding: 4px var(--s3) 16px !important;
+  margin: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 30%, transparent) 40%,
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 70%, transparent) 100%
+  );
+  transition: background 300ms var(--ease);
+}
+
+.medium-grid .discipline-panel:hover .discipline-panel-footer {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 45%, transparent) 40%,
+    color-mix(in srgb, var(--discipline-color, var(--accent)) 90%, transparent) 100%
+  );
+}
+
+/* Spacer above title/pill to push them down */
+.medium-grid .discipline-panel-footer::before {
   display: none;
 }
 
-/* Promote image to its own GPU layer so scale() doesn't cause a repaint */
-.medium-grid .discipline-panel-bg {
-  will-change: transform;
+/* Colored stripe at the very bottom edge */
+.medium-grid .discipline-panel-footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--discipline-color, var(--accent));
+  transition: height 250ms var(--ease);
 }
 
-/* Slightly smaller text for compact cards */
+.medium-grid .discipline-panel:hover .discipline-panel-footer::after {
+  height: 5px;
+}
+
+/* Name — colored pill for maximum discipline pop */
 .medium-grid .discipline-panel-name {
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  background: var(--discipline-color, var(--accent));
+  padding: 3px 12px;
+  border-radius: 4px;
+  align-self: flex-start;
+  display: inline-block;
+  transform: translateY(20px);
+  transition: filter 200ms var(--ease), transform 200ms var(--ease);
 }
 
+.medium-grid .discipline-panel:hover .discipline-panel-name {
+  filter: brightness(1.15);
+  transform: translateY(20px);
+}
+
+/* Sub — semi-transparent dark badge */
 .medium-grid .discipline-panel-sub {
-  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 8px;
+  border-radius: 3px;
+  align-self: flex-start;
+  display: inline-block;
+  transform: translateY(20px);
+}
+
+/* Arrow — fades in on hover */
+.medium-grid .discipline-panel-arrow {
+  display: inline-block;
+  font-size: 1rem;
+  color: var(--discipline-color, var(--accent));
+  opacity: 0;
+  transition: opacity 250ms var(--ease), transform 250ms var(--ease);
+  align-self: flex-end;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+.medium-grid .discipline-panel:hover .discipline-panel-arrow {
+  opacity: 1;
+  transform: translateX(4px) translateY(-2px);
+}
+
+/* Ensure text layers above everything */
+.medium-grid .discipline-panel-name,
+.medium-grid .discipline-panel-sub,
+.medium-grid .discipline-panel-arrow {
+  position: relative;
+  z-index: 3;
 }
 
 /* ---- Responsive ---- */
@@ -427,7 +574,7 @@
   font-family: var(--font-mono);
   font-size: clamp(4rem, 10vw, 8rem);
   font-weight: 400;
-  color: var(--border);
+  color: var(--text-muted);
   line-height: 1;
   margin-bottom: var(--s4);
   user-select: none;

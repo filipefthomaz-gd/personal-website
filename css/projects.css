@@ -1,5 +1,5 @@
 /* =========================================
-   PROJECTS PAGE — unified listing + filter bar
+   PROJECTS PAGE — accordion listing + filter bar
    ========================================= */
 
 .projects-page {
@@ -18,6 +18,7 @@
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: var(--s2) var(--s4);
+  transition: background-color 250ms ease, border-color 250ms ease;
 }
 
 .filter-selects {
@@ -234,6 +235,180 @@
   color: var(--discipline-color, var(--accent));
 }
 
+/* =========================================
+   DISCIPLINE SEPARATOR — static divider between groups
+   ========================================= */
+
+.discipline-separator {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s6) var(--s4) var(--s3);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.discipline-separator-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.discipline-separator-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.discipline-separator[hidden] {
+  display: none;
+}
+
+/* =========================================
+   ACCORDION HEADER — clickable project banner
+   ========================================= */
+
+.project-accordion-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 250ms ease;
+  outline: none;
+}
+
+.project-accordion-header:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.project-accordion-header:hover {
+  background-color: color-mix(in srgb, var(--surface) 50%, var(--surface-2));
+}
+
+/* Chevron indicator */
+.project-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.75rem;
+  opacity: 0.3;
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1), opacity 250ms ease, background-color 250ms ease;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text-muted);
+  background: transparent;
+}
+
+.project-accordion-header:hover .project-chevron {
+  opacity: 0.9;
+  border-color: var(--text-muted);
+  background: var(--surface-2);
+}
+
+.project-accordion-header[aria-expanded="true"] .project-chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--surface-2);
+}
+
+/* Chevron placement for cover projects */
+.project-cover-overlay .project-chevron {
+  position: absolute;
+  bottom: var(--s3);
+  right: var(--s3);
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.project-accordion-header[aria-expanded="true"] .project-chevron {
+  background: color-mix(in srgb, var(--discipline-color, var(--accent)) 15%, transparent);
+}
+
+/* Chevron placement for non-cover projects — inline after title row */
+.project-section-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+.project-accordion-header .project-section-title-row .project-chevron {
+  align-self: center;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   COLLAPSIBLE CONTENT — smooth expand / collapse
+   ========================================= */
+
+.project-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-collapse.open {
+  grid-template-rows: 1fr;
+}
+
+.project-collapse-inner {
+  overflow: hidden;
+}
+
+/* =========================================
+   ENHANCED PROJECT SECTIONS
+   ========================================= */
+
+/* Default: project-section with no header/cover — NO border initially */
+.project-section {
+  border-left: 4px solid transparent;
+  transition: border-color 250ms ease, background-color 250ms ease;
+}
+
+/* On hover, get color from the tag inside */
+.project-section:not(.project-section--expanded) .project-accordion-header:hover {
+  border-left-color: var(--screen);
+  background: color-mix(in srgb, var(--screen) 6%, var(--bg));
+}
+
+.project-section[data-discipline="screen"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--screen); background: color-mix(in srgb, var(--screen) 6%, var(--bg)); }
+.project-section[data-discipline="stage"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--stage); background: color-mix(in srgb, var(--stage) 6%, var(--bg)); }
+.project-section[data-discipline="print"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--print); background: color-mix(in srgb, var(--print) 6%, var(--bg)); }
+.project-section[data-discipline="music"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--music); background: color-mix(in srgb, var(--music) 6%, var(--bg)); }
+.project-section[data-discipline="worldbuilding"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--worldbuilding); background: color-mix(in srgb, var(--worldbuilding) 6%, var(--bg)); }
+.project-section[data-discipline="tech"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--tech); background: color-mix(in srgb, var(--tech) 6%, var(--bg)); }
+.project-section[data-discipline="visual"]:not(.project-section--expanded) .project-accordion-header:hover { border-left-color: var(--visual); background: color-mix(in srgb, var(--visual) 6%, var(--bg)); }
+
+/* On hover, show discipline color (only when not expanded) */
+.project-section:not(.project-section--expanded) .project-accordion-header:hover {
+  border-left-color: var(--accent);
+  background: color-mix(in srgb, var(--accent, var(--surface)) 8%, var(--bg));
+}
+
+/* Expanded state: remove colored highlight entirely */
+.project-section--expanded {
+  border-left-color: var(--border);
+  background: var(--bg);
+}
+
+/* Organisation entries */
+.project-section--org {
+  background: color-mix(in srgb, var(--discipline-color, var(--surface)) 4%, var(--bg));
+}
+
 /* ---- Specific roles line ---- */
 .project-roles-line {
   font-family: var(--font-mono);
@@ -244,12 +419,26 @@
 }
 
 /* =========================================
-   PROJECT SECTIONS (override scroll margin
-   to account for filter bar)
+   PROJECT SECTIONS — accordion spacing
    ========================================= */
 
 .projects-page .project-section {
+  padding: var(--s1) var(--s4) var(--s2);
   scroll-margin-top: calc(var(--nav-height) + 120px);
+}
+
+[data-theme="light"] .projects-page .project-section {
+  scroll-margin-top: calc(var(--nav-height) + 140px);
+}
+
+/* Cover sections keep 0 padding (overrides discipline.css) */
+.projects-page .project-section--has-cover {
+  padding: 0;
+}
+
+/* First discipline separator — no extra top spacing since page has spacing already */
+.projects-list > .discipline-separator:first-child {
+  padding-top: var(--s4);
 }
 
 /* =========================================
@@ -257,8 +446,7 @@
    ========================================= */
 
 .project-section--org {
-  border-left: 3px solid var(--discipline-color, var(--border));
-  background: color-mix(in srgb, var(--discipline-color, var(--surface)) 5%, var(--bg));
+  background: color-mix(in srgb, var(--discipline-color, var(--surface)) 4%, var(--bg));
 }
 
 /* =========================================

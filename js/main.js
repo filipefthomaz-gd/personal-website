@@ -153,6 +153,35 @@
   });
 })();
 
+/* ---- Theme toggle (light / dark) ---- */
+(function initThemeToggle() {
+  var btn = document.getElementById('theme-toggle');
+  var icon = document.getElementById('theme-toggle-icon');
+  if (!btn) return;
+
+  var STORAGE_KEY = 'site-theme';
+  var DARK = '🌙';
+  var LIGHT = '☀️';
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (icon) icon.textContent = theme === 'light' ? DARK : LIGHT;
+    try { sessionStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+  }
+
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  try {
+    var saved = sessionStorage.getItem(STORAGE_KEY);
+    if (saved) applyTheme(saved);
+  } catch (e) {}
+
+  btn.addEventListener('click', toggleTheme);
+})();
+
 /* ---- Card builder (shared by home + work pages) ---- */
 function buildCard(project, index) {
   var thumbContent = project.thumbnail
@@ -173,7 +202,7 @@ function buildCard(project, index) {
         '<span class="tag" data-discipline="' + project.discipline + '">' + escapeHtml(categoryLabel(project.discipline, project.category)) + '</span>' +
         '<h3 class="project-card-title">' + escapeHtml(project.title) + '</h3>' +
         '<p class="project-card-desc">' + escapeHtml(project.description) + '</p>' +
-        '<span class="project-card-link">View project <span class="arrow">→</span></span>' +
+        '<span class="project-card-link">View project</span>' +
       '</div>' +
     '</a>'
   );
