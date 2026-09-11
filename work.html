@@ -3,7 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Theme boot: runs before first paint so the page never flashes the
+       wrong theme. Falls back to the OS setting when nothing is stored.
+       The `js` class lets CSS hide reveal targets only when JS can show them. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      var t = null;
+      try { t = localStorage.getItem('site-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      d.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+
   <meta name="description" content="Work by Filipe Thomaz — Screen, Stage, Print, Music, Worldbuilding, and Tech.">
+  <!-- Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Work — Filipe Thomaz">
+  <meta property="og:description" content="Work by Filipe Thomaz — Screen, Stage, Print, Music, Worldbuilding, and Tech.">
+  <meta property="og:image" content="./assets/images/disciplines/discipline-screen.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
   <title>Work — Filipe Thomaz</title>
 
   <!-- Fonts -->
@@ -20,6 +47,9 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main">Skip to content</a>
+
+
   <!-- ===== NAVIGATION ===== -->
   <nav class="nav scrolled" id="nav" role="navigation" aria-label="Main navigation">
     <a href="./index.html" class="nav-logo">Filipe Thomaz</a>
@@ -28,8 +58,9 @@
       <a href="./cv.html">CV</a>
       <a href="./blog.html">Blog</a>
       <a href="./index.html#contact">Contact</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" type="button">
-        <span class="theme-toggle-icon" id="theme-toggle-icon">🌙</span>
+      <button class="theme-toggle" data-theme-toggle type="button"
+              aria-label="Switch to light theme" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
       </button>
     </div>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
@@ -48,10 +79,15 @@
       <a href="./blog.html">Blog</a>
       <a href="./index.html#contact">Contact</a>
     </nav>
+    <button class="nav-overlay-theme" data-theme-toggle type="button"
+            aria-label="Switch to light theme" aria-pressed="false">
+      <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
+      <span class="theme-toggle-label">Light mode</span>
+    </button>
   </div>
 
   <!-- ===== MAIN ===== -->
-  <main class="work-page">
+  <main tabindex="-1" id="main" class="work-page">
 
     <div class="discipline-grid" role="list" aria-label="Choose a discipline">
 
@@ -172,6 +208,10 @@
   </main>
 
   <!-- ===== FOOTER ===== -->
+  <button class="to-top" id="to-top" type="button" aria-label="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
+
   <footer class="footer">
     <p class="footer-copy">© 2026 Filipe Thomaz</p>
     <div class="footer-links">

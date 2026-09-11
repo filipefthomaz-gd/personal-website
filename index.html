@@ -3,7 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Theme boot: runs before first paint so the page never flashes the
+       wrong theme. Falls back to the OS setting when nothing is stored.
+       The `js` class lets CSS hide reveal targets only when JS can show them. -->
+  <script>
+    (function () {
+      var d = document.documentElement;
+      d.classList.add('js');
+      var t = null;
+      try { t = localStorage.getItem('site-theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') {
+        t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      }
+      d.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <meta name="theme-color" content="#0A0A0A">
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+
   <meta name="description" content="Filipe Thomaz — Designer, Developer, Engineer, Writer, Musician, and Builder of Worlds.">
+  <!-- Social sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Filipe Thomaz">
+  <meta property="og:description" content="Filipe Thomaz — Designer, Developer, Engineer, Writer, Musician, and Builder of Worlds.">
+  <meta property="og:image" content="./assets/images/disciplines/discipline-screen.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
   <title>Filipe Thomaz</title>
 
   <!-- Fonts -->
@@ -30,6 +57,9 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
+
   <!-- ===== NAVIGATION ===== -->
   <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
     <a href="#top" class="nav-logo">Filipe Thomaz</a>
@@ -38,8 +68,9 @@
       <a href="./cv.html">CV</a>
       <a href="./blog.html">Blog</a>
       <a href="#contact">Contact</a>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" type="button">
-        <span class="theme-toggle-icon" id="theme-toggle-icon">🌙</span>
+      <button class="theme-toggle" data-theme-toggle type="button"
+              aria-label="Switch to light theme" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
       </button>
     </div>
     <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
@@ -58,10 +89,15 @@
       <a href="./blog.html">Blog</a>
       <a href="#contact">Contact</a>
     </nav>
+    <button class="nav-overlay-theme" data-theme-toggle type="button"
+            aria-label="Switch to light theme" aria-pressed="false">
+      <span class="theme-toggle-icon" aria-hidden="true">☀️</span>
+      <span class="theme-toggle-label">Light mode</span>
+    </button>
   </div>
 
   <!-- ===== MAIN ===== -->
-  <main id="top">
+  <main tabindex="-1" id="top">
 
     <!-- ─── HERO ─────────────────────────────────────── -->
     <section class="hero" aria-label="Introduction">
@@ -71,7 +107,12 @@
           Filipe<br>Thomaz
         </h1>
 
-        <div class="hero-role-wrapper" aria-live="polite" aria-atomic="true">
+        <!-- The cycling word is decoration: an aria-live region here would
+             announce a new role every 2.8s. Screen readers get the full list
+             once, statically, and skip the animation entirely. -->
+        <p class="sr-only">Designer, creative, developer, engineer, writer and musician.</p>
+
+        <div class="hero-role-wrapper" aria-hidden="true">
           <span class="hero-role-prefix">Currently:</span>
           <div class="hero-role-cycling">
             <span class="hero-role-text" id="hero-role-text">Designer</span>
@@ -313,12 +354,16 @@
           1. Go to https://formspree.io and create a free account
           2. Create a new form — you'll get a form ID like "xpwqdabc"
           3. Replace YOUR_FORM_ID below with your actual form ID
+
+          Until that's done, contact.js detects the placeholder and falls back
+          to opening the visitor's mail client, so the form still works.
         -->
         <form
           class="contact-form reveal reveal-delay-3"
           id="contact-form"
           action="https://formspree.io/f/YOUR_FORM_ID"
           method="POST"
+          data-fallback-email="filipefthomaz@gmail.com"
           novalidate
         >
           <div class="form-row">
@@ -331,7 +376,9 @@
                 placeholder="Your name"
                 required
                 autocomplete="name"
+                aria-describedby="form-name-error"
               >
+              <p class="form-error" id="form-name-error"></p>
             </div>
             <div class="form-group">
               <label for="form-email">Email</label>
@@ -342,7 +389,9 @@
                 placeholder="your@email.com"
                 required
                 autocomplete="email"
+                aria-describedby="form-email-error"
               >
+              <p class="form-error" id="form-email-error"></p>
             </div>
           </div>
 
@@ -353,7 +402,9 @@
               name="message"
               placeholder="What's on your mind?"
               required
+              aria-describedby="form-message-error"
             ></textarea>
+            <p class="form-error" id="form-message-error"></p>
           </div>
 
           <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
@@ -361,13 +412,17 @@
           <button type="submit" class="btn-submit" id="form-submit">Send it →</button>
         </form>
 
-        <!-- Replace with your actual social links -->
+        <p class="contact-direct reveal">
+          Prefer email? <a href="mailto:filipefthomaz@gmail.com">filipefthomaz@gmail.com</a>
+        </p>
+
+        <!-- TODO: point these at your actual profiles -->
         <div class="social-links reveal">
-          <a href="https://github.com/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">
-            ↗ GitHub
+          <a href="https://github.com/" class="social-link" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> GitHub
           </a>
-          <a href="https://linkedin.com/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">
-            ↗ LinkedIn
+          <a href="https://linkedin.com/" class="social-link" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> LinkedIn
           </a>
           <!-- Add more as needed: Twitter/X, Bandcamp, itch.io, etc. -->
         </div>
@@ -378,10 +433,14 @@
   </main>
 
   <!-- ===== FOOTER ===== -->
+  <button class="to-top" id="to-top" type="button" aria-label="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
+
   <footer class="footer">
     <p class="footer-copy">© 2026 Filipe Thomaz</p>
     <div class="footer-links">
-      <a href="./work.html">Work</a>
+      <a href="./projects.html">Projects</a>
       <a href="./blog.html">Blog</a>
       <a href="#contact">Contact</a>
     </div>

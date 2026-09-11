@@ -72,8 +72,9 @@
   applyFilters();
   updateFilterUI();  /* sync bar to initial URL state */
   setupFilters();
-  setupAccordion();
-  setupProjectPicker();
+  /* Keep the returned API — the project picker needs expandSection() */
+  var accordion = setupAccordion();
+  setupProjectPicker(accordion);
 
   /* =========================================
      FILTER BAR
@@ -386,7 +387,7 @@
     }
   }
 
-  function setupProjectPicker() {
+  function setupProjectPicker(accordion) {
     var picker    = document.getElementById('project-picker');
     var btn       = document.getElementById('project-picker-btn');
     var dropdown  = document.getElementById('project-picker-dropdown');
@@ -410,13 +411,17 @@
       if (target) {
         var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 64;
         var barH = filterBar ? filterBar.offsetHeight : 56;
-        var top = target.getBoundingClientRect().top + window.scrollY - navH - barH;
-        window.scrollTo({ top: top, behavior: 'smooth' });
+        var top = target.getBoundingClientRect().top + window.scrollY - navH - barH - 12;
+        window.scrollTo({
+          top: Math.max(0, top),
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        });
 
-        /* Expand the accordion for the selected project */
-        if (typeof setupAccordion !== 'undefined' && setupAccordion.expandSection) {
-          setupAccordion.expandSection(target);
-        }
+        /* Expand the accordion for the selected project. This used to read
+           setupAccordion.expandSection — a property that was never set, since
+           expandSection lives on the object setupAccordion() returns — so the
+           picker only ever scrolled to a still-collapsed project. */
+        if (accordion && accordion.expandSection) accordion.expandSection(target);
       }
       setCurrentProject(item.dataset.target);
       dropdown.hidden = true;
@@ -468,6 +473,52 @@ function setupAccordion() {
     var currentOpen = null; /* section element or null */
     var filterBar = document.getElementById('projects-filter-bar');
 
+    /* Height of everything pinned to the top of the viewport, measured live —
+       the filter bar wraps to two rows on narrow screens. */
+    function stickyOffset() {
+      var nav = document.getElementById('nav');
+      var navH = nav ? nav.getBoundingClientRect().height : 64;
+      var barH = filterBar ? filterBar.getBoundingClientRect().height : 0;
+      return navH + barH;
+    }
+
+    /* Gap left above the anchor so it doesn't touch the sticky filter bar */
+    var ANCHOR_GAP = 20;
+
+    /* Bring the section into view. We aim at the eyebrow (the number + medium
+       tag above the title) rather than the top of the header: on a project
+       with a cover, that crops the top of the banner while keeping the whole
+       text block — eyebrow, title, link — comfortably on screen. Sections
+       without a cover have the eyebrow at the top anyway, so both look alike.
+
+       `shrinkAbove` compensates for a section closing above this one: its
+       collapse animates shut over 200ms, so the anchor we're aiming at is
+       still sitting that many pixels too low when we measure. */
+    function scrollHeaderIntoView(header, shrinkAbove) {
+      var anchor = header.querySelector('.project-section-eyebrow') || header;
+
+      var top = window.scrollY
+              + anchor.getBoundingClientRect().top
+              - stickyOffset()
+              - ANCHOR_GAP
+              - (shrinkAbove || 0);
+
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    }
+
+    /* How much vertical space `section` will give back when it closes —
+       only counts if it sits above `reference` in the document. */
+    function collapsingHeightAbove(section, reference) {
+      if (!section || section === reference) return 0;
+      var below = section.compareDocumentPosition(reference) & Node.DOCUMENT_POSITION_FOLLOWING;
+      if (!below) return 0;
+      var collapse = section.querySelector('.project-collapse');
+      return collapse ? collapse.getBoundingClientRect().height : 0;
+    }
+
     document.querySelectorAll('.project-accordion-header').forEach(function(header) {
       header.addEventListener('click', function(e) {
         if (e.target.closest('.project-external-link')) return;
@@ -487,6 +538,9 @@ function setupAccordion() {
       var collapse = section.querySelector('.project-collapse');
       var isOpen = collapse.classList.contains('open');
 
+      /* Measure before closing anything — afterwards the height is gone */
+      var shrinkAbove = collapsingHeightAbove(currentOpen, section);
+
       /* Close previously open section if different */
       if (currentOpen && currentOpen !== section) {
         var prevHeader = currentOpen.querySelector('.project-accordion-header');
@@ -501,36 +555,47 @@ function setupAccordion() {
         header.setAttribute('aria-expanded', 'false');
         section.classList.remove('project-section--expanded');
         currentOpen = null;
+        /* Collapsing doesn't move anything above the header — stay put */
       } else {
         collapse.classList.add('open');
         header.setAttribute('aria-expanded', 'true');
         section.classList.add('project-section--expanded');
         currentOpen = section;
+        /* Opening a project should put its start at the top of the screen,
+           otherwise the content expands below the fold and reads as nothing
+           having happened. */
+        scrollHeaderIntoView(header, shrinkAbove);
       }
     }
 
     /* Expose for external use */
     return {
-      expandSection: function(section) {
+      /* `scroll` is opt-in: the picker does its own scrolling first */
+      expandSection: function(section, scroll) {
         if (!section) return;
         var header = section.querySelector('.project-accordion-header');
-        if (header) {
-          /* Close current if different */
-          if (currentOpen && currentOpen !== section) {
-            var pH = currentOpen.querySelector('.project-accordion-header');
-            var pC = currentOpen.querySelector('.project-collapse');
-            if (pH) pH.setAttribute('aria-expanded', 'false');
-            if (pC) pC.classList.remove('open');
-            currentOpen.classList.remove('project-section--expanded');
-          }
-var collapse = section.querySelector('.project-collapse');
-          if (collapse && !collapse.classList.contains('open')) {
-            collapse.classList.add('open');
-            header.setAttribute('aria-expanded', 'true');
-            section.classList.add('project-section--expanded');
-            currentOpen = section;
-          }
+        if (!header) return;
+
+        var shrinkAbove = collapsingHeightAbove(currentOpen, section);
+
+        /* Close current if different */
+        if (currentOpen && currentOpen !== section) {
+          var pH = currentOpen.querySelector('.project-accordion-header');
+          var pC = currentOpen.querySelector('.project-collapse');
+          if (pH) pH.setAttribute('aria-expanded', 'false');
+          if (pC) pC.classList.remove('open');
+          currentOpen.classList.remove('project-section--expanded');
         }
+
+        var collapse = section.querySelector('.project-collapse');
+        if (collapse && !collapse.classList.contains('open')) {
+          collapse.classList.add('open');
+          header.setAttribute('aria-expanded', 'true');
+          section.classList.add('project-section--expanded');
+          currentOpen = section;
+        }
+
+        if (scroll) scrollHeaderIntoView(header, shrinkAbove);
       }
     };
   }

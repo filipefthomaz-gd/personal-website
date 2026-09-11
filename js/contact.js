@@ -1,7 +1,12 @@
 /* =========================================
-   CONTACT.JS — Formspree form submission
-                Inline success/error state
-                No page reload
+   CONTACT.JS — Form submission
+
+   Posts to Formspree when it's configured. While the action still holds the
+   YOUR_FORM_ID placeholder, falls back to opening the visitor's mail client
+   so the form is never a dead end.
+
+   Validation is per-field: each input gets aria-invalid and its own message,
+   rather than one summary line that doesn't say which field is wrong.
    ========================================= */
 
 (function initContactForm() {
@@ -12,61 +17,151 @@
 
   if (!form || !submit || !status) return;
 
+  var fields = ['name', 'email', 'message'].map(function(key) {
+    return {
+      key: key,
+      input: form.querySelector('[name="' + key + '"]'),
+      error: document.getElementById('form-' + key + '-error'),
+    };
+  }).filter(function(f) { return f.input; });
+
+  var isConfigured = form.action.indexOf('YOUR_FORM_ID') === -1;
+  var fallbackEmail = form.getAttribute('data-fallback-email');
+
+  var LABELS = { name: 'your name', email: 'your email', message: 'a message' };
+
+  /* ---- Submit ---- */
+
   form.addEventListener('submit', function(e) {
     e.preventDefault();
 
-    /* Basic client-side validation */
-    var name    = form.querySelector('[name="name"]');
-    var email   = form.querySelector('[name="email"]');
-    var message = form.querySelector('[name="message"]');
+    if (!validate()) return;
 
-    if (!name.value.trim() || !email.value.trim() || !message.value.trim()) {
-      showStatus('error', 'Please fill in all fields.');
+    if (!isConfigured && fallbackEmail) {
+      sendViaMailClient();
       return;
     }
 
-    if (!isValidEmail(email.value)) {
-      showStatus('error', 'Please enter a valid email address.');
-      return;
-    }
+    postToFormspree();
+  });
 
-    /* Loading state */
-    submit.textContent = 'Sending…';
-    submit.disabled = true;
+  /* Clear a field's error as soon as it's corrected — waiting for the next
+     submit to remove a red border feels broken. */
+  fields.forEach(function(f) {
+    f.input.addEventListener('input', function() {
+      if (f.input.getAttribute('aria-invalid') === 'true' && !errorFor(f)) {
+        clearFieldError(f);
+      }
+    });
+    f.input.addEventListener('blur', function() {
+      if (f.input.value.trim()) setFieldError(f, errorFor(f));
+    });
+  });
+
+  /* ---- Validation ---- */
+
+  function errorFor(f) {
+    var value = f.input.value.trim();
+    if (!value) return 'Please enter ' + LABELS[f.key] + '.';
+    if (f.key === 'email' && !isValidEmail(value)) return 'That doesn’t look like a valid email address.';
+    return '';
+  }
+
+  function validate() {
+    var firstInvalid = null;
+
+    fields.forEach(function(f) {
+      var message = errorFor(f);
+      setFieldError(f, message);
+      if (message && !firstInvalid) firstInvalid = f;
+    });
+
+    if (firstInvalid) {
+      clearStatus();
+      /* Move the user to the problem rather than making them hunt for it */
+      firstInvalid.input.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function setFieldError(f, message) {
+    if (message) {
+      f.input.setAttribute('aria-invalid', 'true');
+      if (f.error) f.error.textContent = message;
+    } else {
+      clearFieldError(f);
+    }
+  }
+
+  function clearFieldError(f) {
+    f.input.removeAttribute('aria-invalid');
+    if (f.error) f.error.textContent = '';
+  }
+
+  /* ---- Transports ---- */
+
+  function postToFormspree() {
+    setBusy(true);
     clearStatus();
-
-    /* Submit via fetch */
-    var data = new FormData(form);
 
     fetch(form.action, {
       method: 'POST',
-      body: data,
+      body: new FormData(form),
       headers: { 'Accept': 'application/json' },
     })
       .then(function(res) {
-        if (res.ok) {
-          form.reset();
-          showStatus('success', 'Message sent — I\'ll be in touch soon.');
-          submit.textContent = 'Sent ✓';
-          setTimeout(function() {
-            submit.textContent = 'Send it →';
-            submit.disabled = false;
-          }, 4000);
-        } else {
+        if (!res.ok) {
           return res.json().then(function(data) {
             throw new Error(data.error || 'Submission failed');
           });
         }
+        form.reset();
+        fields.forEach(clearFieldError);
+        showStatus('success', 'Message sent — I’ll be in touch soon.');
+        submit.textContent = 'Sent ✓';
+        setTimeout(function() {
+          submit.textContent = 'Send it →';
+          setBusy(false);
+        }, 4000);
       })
       .catch(function(err) {
-        showStatus('error', 'Something went wrong. Try emailing me directly.');
+        var reach = fallbackEmail ? ' Try emailing me at ' + fallbackEmail + '.' : '';
+        showStatus('error', 'Something went wrong.' + reach);
         submit.textContent = 'Try again';
-        submit.disabled = false;
+        setBusy(false);
         console.error('[contact]', err);
       });
-  });
+  }
+
+  function sendViaMailClient() {
+    var get = function(key) {
+      var f = fields.filter(function(x) { return x.key === key; })[0];
+      return f ? f.input.value.trim() : '';
+    };
+
+    var subject = 'Website enquiry from ' + get('name');
+    var body = get('message') + '\n\n— ' + get('name') + ' (' + get('email') + ')';
+
+    window.location.href =
+      'mailto:' + fallbackEmail +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+
+    showStatus('success', 'Opening your email app — hit send there and it’s on its way.');
+  }
 
   /* ---- Helpers ---- */
+
+  function setBusy(busy) {
+    submit.disabled = busy;
+    if (busy) {
+      submit.textContent = 'Sending…';
+      submit.setAttribute('aria-busy', 'true');
+    } else {
+      submit.removeAttribute('aria-busy');
+    }
+  }
 
   function showStatus(type, message) {
     status.className = 'form-status ' + type;

@@ -50,6 +50,11 @@
 
   /* Accordion */
   --accordion-transition: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Focus ring — one token so every interactive element matches */
+  --focus-ring: #FF7A45;
+  --focus-width: 2px;
+  --focus-offset: 3px;
 }
 
 /* ---- Light Theme ---- */
@@ -60,9 +65,11 @@
   --border:     #E0DDD8;
 
   --text:       #1A1A1A;
-  --text-muted: #888888;
+  /* #888 on #FAF8F5 is 3.0:1 — fails AA for body text. #5F5952 is 6.4:1. */
+  --text-muted: #5F5952;
 
-  --accent:     #FF3E00;
+  --accent:     #D63200;
+  --focus-ring: #B32A00;
 
   --screen:        #6D28D9;
   --stage:         #DC2626;
@@ -73,15 +80,13 @@
   --visual:        #BE185D;
 }
 
-html {
-  font-size: 16px;
-  transition: color 250ms ease, background-color 250ms ease;
-}
-
 /* ---- Base ---- */
 
 html {
   font-size: 16px;
+  transition: color 250ms ease, background-color 250ms ease;
+  /* Anchor targets clear the fixed nav instead of hiding under it */
+  scroll-padding-top: calc(var(--nav-height) + var(--s3));
 }
 
 body {
@@ -132,19 +137,14 @@ body {
 }
 
 .nav.scrolled {
-  background-color: var(--surface-2);
-  border-bottom: 1px solid var(--border);
+  background-color: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom-color: var(--border);
 }
 
 [data-theme="light"] .nav.scrolled {
   background-color: rgba(250, 248, 245, 0.92);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.nav.scrolled {
-  background-color: var(--surface-2);
-  border-bottom-color: var(--border);
 }
 
 .nav-logo {
@@ -167,15 +167,49 @@ body {
 }
 
 .nav-links a {
+  position: relative;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  padding: var(--s1) 2px;
   transition: color 200ms var(--ease);
 }
 
 .nav-links a:hover {
+  color: var(--text);
+}
+
+/* Underline that grows from the left on hover, stays put when current */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 250ms var(--ease);
+}
+
+.nav-links a:hover::after,
+.nav-links a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+/* Current page / section — set by aria-current, styled once for both */
+.nav-links a[aria-current] {
+  color: var(--text);
+}
+
+.nav-links a[aria-current]::after {
+  transform: scaleX(1);
+}
+
+.nav-overlay-links a[aria-current] {
   color: var(--text);
 }
 
@@ -226,8 +260,13 @@ body {
 .nav-toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
-  padding: var(--s1);
+  /* 44px tap target — the bars stay 24px wide */
+  width: 44px;
+  height: 44px;
+  padding: 0;
   background: none;
 }
 
@@ -236,7 +275,21 @@ body {
   width: 24px;
   height: 1.5px;
   background-color: var(--text);
-  transition: transform 300ms var(--ease), opacity 300ms var(--ease);
+  transition: transform 300ms var(--ease), opacity 200ms var(--ease);
+}
+
+/* Morph into an X while the overlay is open */
+.nav-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0.4);
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
 }
 
 @media (max-width: 768px) {
@@ -257,23 +310,76 @@ body {
   justify-content: center;
   gap: var(--s5);
   opacity: 0;
+  /* visibility (not just opacity) so closed menu links leave the tab order
+     and the a11y tree — otherwise they stay focusable behind the page */
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 300ms var(--ease);
+  transition: opacity 300ms var(--ease), visibility 300ms var(--ease);
 }
 
 .nav-overlay.open {
   opacity: 1;
+  visibility: visible;
   pointer-events: all;
 }
+
+/* Links stagger in behind the fade */
+.nav-overlay-links a {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 320ms var(--ease-out), transform 320ms var(--ease-out), color 200ms var(--ease);
+}
+
+.nav-overlay.open .nav-overlay-links a {
+  opacity: 1;
+  transform: none;
+}
+
+.nav-overlay.open .nav-overlay-links a:nth-child(1) { transition-delay:  60ms; }
+.nav-overlay.open .nav-overlay-links a:nth-child(2) { transition-delay: 110ms; }
+.nav-overlay.open .nav-overlay-links a:nth-child(3) { transition-delay: 160ms; }
+.nav-overlay.open .nav-overlay-links a:nth-child(4) { transition-delay: 210ms; }
 
 .nav-overlay-close {
   position: absolute;
   top: var(--s3);
   right: var(--s4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   font-size: 2rem;
   color: var(--text-muted);
   line-height: 1;
   transition: color 200ms var(--ease);
+}
+
+/* Theme switch inside the mobile overlay — the desktop toggle is hidden there */
+.nav-overlay-theme {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-top: var(--s3);
+  padding: var(--s1) var(--s3) var(--s1) var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: none;
+  transition: color 200ms var(--ease), border-color 200ms var(--ease);
+}
+
+.nav-overlay-theme:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.nav-overlay-theme .theme-toggle-icon {
+  font-size: 1rem;
 }
 
 .nav-overlay-close:hover {
@@ -299,6 +405,20 @@ body {
   color: var(--text);
 }
 
+/* ---- Screen-reader-only text ---- */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ---- Section label ---- */
 
 .section-label {
@@ -312,13 +432,15 @@ body {
 
 /* ---- Scroll reveal ---- */
 
-.reveal {
+/* Only hide reveal targets when JS is running to un-hide them. Without the
+   .js guard, a JS failure leaves the whole page invisible. */
+.js .reveal {
   opacity: 0;
   transform: translateY(24px);
   transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
 }
 
-.reveal.visible {
+.js .reveal.visible {
   opacity: 1;
   transform: none;
 }
@@ -489,4 +611,181 @@ body {
 
 .project-card-link .arrow {
   display: none;
+}
+
+/* =========================================
+   FOCUS VISIBILITY
+   reset.css strips button borders/backgrounds, and nothing re-established a
+   focus indicator — keyboard users had no way to see where they were. One
+   token-driven ring for every interactive element, on :focus-visible only so
+   mouse users never see it.
+   ========================================= */
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: 2px;
+}
+
+/* Drop the UA ring for pointer clicks without losing it for keyboards */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* <main> is focusable only as a skip-link / back-to-top landing spot.
+   Ringing the entire page would be noise, so suppress it there. */
+main[tabindex="-1"]:focus,
+main[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+/* Cards and panels are large; pull the ring in so it doesn't collide */
+.project-card:focus-visible,
+.discipline-panel:focus-visible {
+  outline-offset: 2px;
+}
+
+/* Inputs already draw an accent border on focus — pair it with the ring */
+.form-group input:focus-visible,
+.form-group textarea:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* =========================================
+   SKIP LINK
+   ========================================= */
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: var(--s4);
+  z-index: 300;
+  padding: var(--s2) var(--s3);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--bg);
+  background-color: var(--accent);
+  border-radius: 0 0 4px 4px;
+  transform: translateY(-110%);
+  transition: transform 200ms var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline-offset: -4px;
+}
+
+/* =========================================
+   BACK TO TOP
+   ========================================= */
+
+.to-top {
+  position: fixed;
+  right: var(--s4);
+  bottom: var(--s4);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--surface-2) 90%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 250ms var(--ease), transform 250ms var(--ease),
+              visibility 250ms var(--ease), color 200ms var(--ease),
+              border-color 200ms var(--ease);
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.to-top:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .to-top {
+    right: var(--s2);
+    bottom: var(--s2);
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+   Honour the OS setting: kill transforms and looping animations, keep
+   opacity changes so nothing reads as broken.
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Reveals resolve instantly rather than never firing */
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .nav-overlay.open .nav-overlay-links a {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================
+   PRINT
+   ========================================= */
+
+@media print {
+  .nav,
+  .nav-overlay,
+  .to-top,
+  .skip-link,
+  .hero-scroll-cue,
+  .contact-form,
+  .view-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  a[href^="http"]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    word-break: break-all;
+  }
 }
