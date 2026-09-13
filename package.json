@@ -4,7 +4,8 @@
   "private": true,
   "description": "Filipe Thomaz — personal portfolio. Static site, no build step.",
   "scripts": {
-    "dev": "python3 -m http.server 4321 --bind 127.0.0.1",
-    "start": "npm run dev"
+    "dev": "python3 -m http.server 8787 --bind 127.0.0.1",
+    "start": "npm run dev",
+    "images": "node scripts/image-todo.js"
   }
 }

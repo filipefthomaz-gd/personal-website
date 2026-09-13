@@ -9,6 +9,8 @@
  *   category         — sub-category (see list below)
  *   year             — number, e.g. 2020. For ranges use the end year.
  *   status           — Released | Performed | Published | Ongoing | Concept | Archived
+ *                      Complete    — finished, but not published or staged
+ *                      In Progress — actively being written / built
  *   roles            — array of strings, e.g. ['Developer', 'Composer', 'Writer']
  *   tags             — secondary disciplines this project touches, e.g. ['music', 'stage']
  *   relatedProjects  — ids of related entries, e.g. ['freedom-again'] (links shown in section)
@@ -194,9 +196,9 @@ const PROJECTS = [
     id: 'bio-boom',
     title: 'Bio Boom',
     discipline: 'screen',
-    category: 'sketches',
+    category: 'film',
     year: 2011,
-    status: 'Completed',
+    status: 'Complete',
     roles: ['Director', 'Writer', 'Actor', 'Editor'],
     roleCategories: ['Director', 'Writer', 'Performer'],
     tags: [],
@@ -256,6 +258,45 @@ const PROJECTS = [
           loading="lazy">
         </iframe>
       </div>
+    `,
+  },
+
+  {
+    id: 'war-doctor',
+    title: 'War Doctor',
+    discipline: 'screen',
+    category: 'games',
+    year: 2025,
+    status: 'In Progress',
+    roles: ['Designer', 'Developer', 'Writer'],
+    roleCategories: ['Engineer', 'Writer', 'Designer'],
+    tags: ['worldbuilding'],
+    relatedProjects: ['novar', 'flow'],
+    description: 'A narrative management game about a doctor running a clinic in an occupied village. Each shift, there are more patients than there are hours — and the ones you do not treat simply leave.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>War Doctor</strong> is a narrative management game set in Karda, a small village under
+      occupation during an ongoing armed conflict. The player runs a clinic on behalf of an international
+      humanitarian organisation. Each day is a shift: you meet patients, learn what each of them needs,
+      and then decide who gets treated.</p>
+
+      <p>The decision isn't made through dialogue. It's made through a slot system — a fixed number of
+      daily actions, allocated once triage is done. Patients who aren't assigned a slot leave. You find
+      out what happened to them later, through rumour, through the village map, through the absence of a
+      face that used to come in.</p>
+
+      <p>Every patient treated is a patient not treated, and there is no way to talk your way out of it.
+      Across multiple shifts the village changes around those choices: untreated areas become visible on
+      the map, and relationships deepen or degrade based on the pattern rather than any single decision.</p>
+
+      <p>Built in <strong>Unity</strong> under <strong>Red Pine Studios</strong>, set in
+      <a href="../projects.html#novar">Novar</a>, with dialogue running on
+      <a href="../projects.html#flow">Flow</a>.</p>
+
+      <!-- IMAGES: 3–5 in-game screenshots (clinic, triage screen, village map) + a key art / capsule. -->
     `,
   },
 
@@ -452,6 +493,87 @@ const PROJECTS = [
     `,
   },
 
+  {
+    id: 'leonor',
+    title: 'Leonor',
+    discipline: 'stage',
+    category: 'theatre',
+    year: 2026,
+    status: 'In Progress',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A historical tragedy in five acts, written in Portuguese, about the succession that follows the death of a king.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Leonor</em> is a historical tragedy in five acts, written in Portuguese. It opens in the
+      royal bedchamber of a castle in Lisbon with the death of King Júlio, and follows the struggle over
+      the succession between his sons Gabriel and Benjamim, the cardinal João, and the royal guard.</p>
+
+      <p>Its themes are succession and duty, conspiracy, betrayal and assassination. Eight of its sixteen
+      scenes are written.
+    `,
+  },
+
+  {
+    id: 'inevitabilidades-do-tempo',
+    title: 'Inevitabilidades do Tempo',
+    discipline: 'stage',
+    category: 'theatre',
+    year: 2026,
+    status: 'Complete',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['tiny-theatrical-scenes'],
+    description: 'A short play in Portuguese for three actors — a grandfather, his grandson, and a waiter — about dementia, and about the particular helplessness of loving someone as they go.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Inevitabilidades do Tempo</em> — <em>Inevitabilities of Time</em> — is a short contemporary
+      tragedy in Portuguese, written for three actors: an old man, his grandson, and a waiter who keeps
+      returning to a table where the same conversation is happening slightly differently each time.</p>
+
+      <p>It is a play about dementia, and about the specific helplessness of watching someone you love
+      leave while they are still sitting in front of you. The waiter is the only one who can see the whole
+      shape of it.</p>
+    `,
+  },
+
+  {
+    id: 'tiny-theatrical-scenes',
+    title: 'Tiny Theatrical Scenes',
+    discipline: 'stage',
+    category: 'theatre',
+    year: 2018,
+    status: 'Complete',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['inevitabilidades-do-tempo'],
+    description: 'A collection of nine very short plays in English, written between 2016 and 2018, each a single scene for a small cast.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Tiny Theatrical Scenes</strong> is a collection of nine very short plays in English,
+      written between 2016 and 2018. Each is a single scene, built to be performable with almost nothing —
+      a couple of actors, a table, whatever is already in the room.</p>
+
+      <p>Most deal with love and its failures — a confession made too late, a letter to someone who will
+      not read it, longing, regret, heartbreak. Others turn to guilt and identity, madness and despair, or
+      a death that turns out to be a betrayal. <em>Turtle House</em>, about family and innocence, is the
+      one happy scene in the collection.</p>
+    `,
+  },
+
   /* ── PRINT ────────────────────────────────────────── */
   {
     id: 'the-lighthouse',
@@ -551,6 +673,184 @@ const PROJECTS = [
         <img src="../assets/images/pulsar/pulsar-relogio.png" alt="Pulsar — Clock">
       </div>
 
+    `,
+  },
+
+  {
+    id: 'lourenco',
+    title: 'Lourenço',
+    discipline: 'print',
+    category: 'writing',
+    year: 2026,
+    status: 'In Progress',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A novel in four books, in Portuguese, following four lives that each meaningfully touched the next.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Lourenço</em> is a novel in four books. Each book follows a different character, and each
+      character meaningfully touched the life of the next: <strong>Maria → Lourenço → Manuel → Yasmin</strong>.
+      The stories are not sequential — they overlap, loop back, and illuminate each other. What ties them
+      together is not plot but contact: a hand extended across a life that changed the shape of what
+      came after.</p>
+
+      <p>Book I follows Maria, born in Portugal in the early twentieth century into poverty and constraint.
+      She marries a man of violence and limitation, raises four children, and quietly teaches herself to
+      read by candlelight once the house is asleep. Her story is one of intelligence suppressed and then
+      slowly reclaimed. The movement is internal; the world gives her almost nothing and she builds
+      something out of it anyway.</p>
+
+      <p>In progress. Book I is written, in Portuguese.</p>
+    `,
+  },
+
+  {
+    id: 'eclosao-de-um-homem',
+    title: 'Eclosão de um Homem',
+    discipline: 'print',
+    category: 'writing',
+    year: 2026,
+    status: 'In Progress',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'An epic poem in five books, in Portuguese, following a Soul from the Big Bang to whatever comes after us — written under a fixed formal constraint throughout.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Eclosão de um Homem</em> — roughly, <em>The Hatching of a Man</em> — is an epic poem in
+      Portuguese, structured in five books: <strong>Cosmosfera</strong>, <strong>Geosfera</strong>,
+      <strong>Biosfera</strong>, <strong>Noosfera</strong> and <strong>Robosfera</strong>. It follows a
+      Soul that wakes in the chaos of the Big Bang and stays — through the forming of the Earth, the first
+      chemistry that learns to copy itself, the long narrowing into one animal lineage, and out the far
+      side into whatever that lineage builds to replace itself.</p>
+
+      <p>Each sphere is born from a specific lineage that separates out of a much larger substrate of
+      complexity already present: atoms to organised matter, matter to carbon life, life to the human line,
+      humans to whatever follows. The books therefore narrow as they go — opening across a whole field of
+      possibility and closing in on the lineage that produces the next leap — and the narrow end of each
+      book is given the most cantos.</p>
+
+      <p>Every canto is written to the same constraint: twenty stanzas of five lines, hendecasyllabic,
+      in a chained pyramidal rhyme (ABCBA / BCDCB / CDEDC…). Around forty-five cantos are planned.
+      In progress.</p>
+    `,
+  },
+
+  {
+    id: 'um-olhar-sobre-a-vida',
+    title: 'Um Olhar Sobre A Vida',
+    discipline: 'print',
+    category: 'writing',
+    year: 2026,
+    status: 'Complete',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['um-olhar-sobre-o-amor'],
+    description: 'A collection of eight short stories in Portuguese, each following an ordinary life at the point where it turns.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Um Olhar Sobre A Vida</em> — <em>A Look at Life</em> — is a collection of eight short stories
+      in Portuguese. A cleaner nobody registers as being in the room. A barman on the receiving end of
+      other people's nights. A bell, and where its ringing ends up. A game of chess that is not about
+      chess.</p>
+
+      <p>The companion collection,
+      <a href="../projects.html#um-olhar-sobre-o-amor">Um Olhar Sobre O Amor</a>, takes the same approach
+      to love. All eight stories are finished.</p>
+    `,
+  },
+
+  {
+    id: 'um-olhar-sobre-o-amor',
+    title: 'Um Olhar Sobre O Amor',
+    discipline: 'print',
+    category: 'writing',
+    year: 2026,
+    status: 'In Progress',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['um-olhar-sobre-a-vida'],
+    description: 'A companion collection of five short stories in Portuguese, on love and its aftermath.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Um Olhar Sobre O Amor</em> — <em>A Look at Love</em> — is the companion collection to
+      <a href="../projects.html#um-olhar-sobre-a-vida">Um Olhar Sobre A Vida</a>, written in Portuguese.</p>
+
+      <p>A pillow that knows more than anyone else in the house. A writer who cannot finish the one story
+      that matters. Shame, eternity, and a love kept in a bottle. Four of the five stories are finished.
+    `,
+  },
+
+  {
+    id: 'devaneios-emocionais-milao',
+    title: 'Devaneios Emocionais — Milão',
+    discipline: 'print',
+    category: 'writing',
+    year: 2014,
+    status: 'Complete',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['devaneios-emocionais-estefania', 'jovem-indefinicao'],
+    description: 'Nineteen short prose reveries written in Milan between 2013 and 2014, each built around a single image and a piece of music.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><em>Devaneios Emocionais</em> — <em>Emotional Reveries</em> — are short prose pieces in
+      Portuguese, each built around a single image: a green bench in a garden, a boat adrift in the middle
+      of a river, a hand passing along the spines of books, a single drop.</p>
+
+      <p>This set of nineteen was written in <strong>Milan, between 2013 and 2014</strong>, on themes of
+      saudade, longing and heartbreak. Each piece records the music it was written to.</p>
+
+      <p>The later Lisbon set is collected in
+      <a href="../projects.html#devaneios-emocionais-estefania">Devaneios Emocionais — Estefânia</a>.
+    `,
+  },
+
+  {
+    id: 'devaneios-emocionais-estefania',
+    title: 'Devaneios Emocionais — Estefânia',
+    discipline: 'print',
+    category: 'writing',
+    year: 2017,
+    status: 'Complete',
+    roles: ['Writer'],
+    roleCategories: ['Writer'],
+    tags: [],
+    relatedProjects: ['devaneios-emocionais-milao', 'jovem-indefinicao'],
+    description: 'A smaller, later set of four prose reveries, written in Lisbon between 2016 and 2017.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A second, smaller set of <em>Devaneios Emocionais</em> — four pieces written in
+      <strong>Estefânia, Lisbon, between 2016 and 2017</strong>. Same form as the
+      <a href="../projects.html#devaneios-emocionais-milao">Milan reveries</a>: one image, held, in
+      Portuguese, written to music.</p>
+
+      <p>Written a few years after the Milan set, they turn to broader questions — what is wrong with
+      the world, what there is to regret, and what it would take to live in one governed by love.</p>
     `,
   },
 
@@ -710,6 +1010,41 @@ const PROJECTS = [
   },
 
   /* ── WORLDBUILDING ────────────────────────────────── */
+  {
+    id: 'novar',
+    title: 'Novar',
+    discipline: 'worldbuilding',
+    category: 'lore',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Worldbuilder', 'Writer'],
+    roleCategories: ['Writer', 'Designer'],
+    tags: ['screen'],
+    relatedProjects: ['war-doctor'],
+    description: 'An invented world with its own calendar, nations, peoples and constructed language, recorded year by year across its history.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Novar</strong> is an invented world, currently in the year 1387 of its own Common
+      Calendar. It holds four nations — Borenia, Eloria, Savora and Trivoria — alongside sixteen cultures,
+      six religions, their ethnicities and organisations, a geography of regions, cities and waters, and
+      the <a href="../projects.html#conlex">Arventi</a> language.</p>
+
+      <p>Nations are recorded as <em>nation-eras</em> rather than fixed entries: each has formation and
+      dissolution dates, the predecessor states it emerged from, its founding ethnicities, leaders
+      attached to the years they held power, and demographics that shift over time. Treaties, events and
+      timelines sit alongside them, so the world can be asked what any given region looked like in any
+      given year.</p>
+
+      <p><a href="../projects.html#war-doctor">War Doctor</a> is set in Novar, in an occupied village in
+      Trivoria. The world is published as a wiki at
+      <a href="../projects.html#novar-wiki">novar-wiki</a>.</p>
+
+      <!-- IMAGES: a Novar world map, and 2–3 wiki screenshots (nation page, timeline). -->
+    `,
+  },
 
   /* ── TECH ─────────────────────────────────────────── */
   {
@@ -760,6 +1095,360 @@ const PROJECTS = [
       <p>
         <a href="https://filipefthomaz-gd.github.io/flow-documentation/" target="_blank" rel="noopener noreferrer">Read the documentation ↗</a>
       </p>
+    `,
+  },
+
+  {
+    id: 'ocean',
+    title: 'Ocean',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: [],
+    relatedProjects: ['flow', 'flow-writer'],
+    description: 'A suite of Unity libraries in C# — animation, adaptive audio, tweening, UI layout, inspector tooling, reactive queries and dialogue. Each module works on its own.',
+    /* `url` is rendered raw into an href, so it must be absolute — a relative
+       page would break on work/*.html. The module link lives in content. */
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Ocean</strong> is a suite of Unity libraries written in C#. Each module is independently
+      usable and separately documented.</p>
+
+      <ul>
+        <li><strong>Aqua</strong> — Playables-based animation: crossfades, 1D blend trees and timed
+        markers, without an Animator Controller.</li>
+        <li><strong>Hydra</strong> — adaptive audio: stem-based music, beat-synced transitions, spatial
+        zones and emotional mixing.</li>
+        <li><strong>Tide</strong> — fluent, awaitable tweens for transforms, UI, post-processing and audio.</li>
+        <li><strong>Hull</strong> — code-driven window and layout system for HUDs and panels.</li>
+        <li><strong>Pearl</strong> — inspector attribute system for laying out and validating fields.</li>
+        <li><strong>Reefs</strong> — reactive query language over a blackboard, with temporal history.</li>
+        <li><strong>Flow</strong> — dialogue scripting language and runtime, with
+        <a href="../projects.html#flow">its own entry</a> and editor tooling in
+        <a href="../projects.html#flow-writer">Flow Writer</a>.</li>
+      </ul>
+
+      <p><strong>Knot</strong> and <strong>Octopus</strong> are in early development.</p>
+
+      <p><a href="../ocean.html">See all modules in detail ↗</a></p>
+    `,
+  },
+
+  {
+    id: 'flow-writer',
+    title: 'Flow Writer',
+    discipline: 'tech',
+    category: 'development',
+    year: 2025,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: [],
+    relatedProjects: ['flow', 'ocean'],
+    description: 'Authoring tools for the Flow dialogue language — a language server, a VS Code extension, a desktop app and a web editor, so writers never have to open the engine.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Flow Writer</strong> is the authoring toolchain for
+      <a href="../projects.html#flow">Flow</a>, built so a writer can work on dialogue without opening
+      Unity.</p>
+
+      <ul>
+        <li><strong>Language server</strong> — a C# LSP server providing live validation, diagnostics and
+        navigation, shared by every client below.</li>
+        <li><strong>VS Code extension</strong> — Flow authoring inside an editor writers may already use.</li>
+        <li><strong>Desktop app</strong> — a standalone Avalonia editor for writers who would rather not
+        work in a code editor at all.</li>
+        <li><strong>Web editor</strong> — browser-based editing, sharing a TypeScript runtime with the
+        extension.</li>
+      </ul>
+
+      <p>All four clients share one grammar and one validator.</p>
+
+      <!-- IMAGES: a screenshot of the VS Code extension and of the desktop editor. -->
+    `,
+  },
+
+  {
+    id: 'conlex',
+    title: 'Conlex',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: ['worldbuilding'],
+    relatedProjects: ['novar'],
+    description: 'A command-line tool for building constructed languages, where a language is defined as a YAML file and validated against its own rules.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Conlex</strong> is a Python CLI for working with constructed languages. A language is
+      defined in a single YAML file covering its phonology, phonotactics, stress, morphology, roots,
+      templates and naming conventions, and the tool validates that the definition is internally
+      consistent.</p>
+
+      <p>Languages can inherit from one another with <code>extends:</code>, so a dialect declares only the
+      fields it overrides and the rest merges down from its parent. It was built to hold
+      <strong>Arventi</strong>, the language of <a href="../projects.html#novar">Novar</a>.</p>
+    `,
+  },
+
+  {
+    id: 'novar-wiki',
+    title: 'Novar Wiki',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: ['worldbuilding'],
+    relatedProjects: ['novar', 'war-doctor'],
+    description: 'A browsable wiki for the world of Novar, built in Astro from the same notes the world itself is written in.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A static wiki for <a href="../projects.html#novar">Novar</a>, built with
+      <strong>Astro</strong> and <strong>Tailwind</strong>. It publishes the world as browsable sections —
+      nations, cultures, organizations, events, geography, languages, technology and systems — generated
+      from the same structured notes the world is authored in, so the wiki and the source stay in step.</p>
+
+      <p>It is also embedded directly into the
+      <a href="../projects.html#war-doctor-website">War Doctor site</a> as that game's in-world
+      encyclopedia.</p>
+
+      <!-- IMAGES: 2–3 wiki screenshots — a nation page, an index page, the timeline. -->
+    `,
+  },
+
+  {
+    id: 'war-doctor-website',
+    title: 'War Doctor — Website',
+    discipline: 'tech',
+    category: 'design',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: ['screen'],
+    relatedProjects: ['war-doctor', 'novar-wiki'],
+    description: 'The showcase site for War Doctor — a single page of hero, pitch and screenshots, with the Novar wiki framed alongside it.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>The marketing site for <a href="../projects.html#war-doctor">War Doctor</a>, under Red Pine
+      Studios. One page carries the whole showcase — hero, pitch, three pillars, screenshots and world —
+      with a second page framing the <a href="../projects.html#novar-wiki">Novar wiki</a> as the game's
+      in-world encyclopedia.</p>
+
+      <p>No build step and no dependencies: one HTML page, one stylesheet, one small script, with every
+      external URL kept in a single config file so links can be updated without touching the markup.</p>
+
+      <!-- IMAGES: a screenshot of the site's hero section. -->
+    `,
+  },
+
+  {
+    id: 'city-map-generator',
+    title: 'City Map Generator',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: ['worldbuilding'],
+    relatedProjects: ['novar'],
+    description: 'A procedural generator that grows a contemporary city map from coastline to street names, in the browser.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A browser-based procedural city generator written in <strong>TypeScript</strong>. It builds a map
+      in stages — coastline, river, city boundary, street network, blocks, lots, buildings — then assigns a
+      population and names the streets.</p>
+
+      <p>It generates contemporary, generic cities rather than medieval fantasy settlements: roads,
+      bridges, waterways, parks and density gradients, with no walls or fortifications.</p>
+
+      <!-- IMAGES: 2–3 generated city maps at different seeds. Good candidate for a thumbnail. -->
+    `,
+  },
+
+  {
+    id: 'midi-creative-export',
+    title: 'MIDI Creative Visualizer',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: ['music'],
+    relatedProjects: ['musescore-video-exporter', '24-piano-reveries'],
+    description: 'A piano-roll visualiser for orchestral MIDI, built to study and share scores as video — the music is the star and the interface disappears.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A MIDI piano-roll visualiser in the tradition of Stephen Malinowski's Music Animation Machine,
+      built to study and share orchestral scores. It loads a MIDI file alongside its rendered audio and
+      draws the music as it plays, with colour identity per instrument family and expressive note
+      rendering.</p>
+
+      <p>Built with <strong>Vite</strong> and vanilla JavaScript, parsing with
+      <code>@tonejs/midi</code> and exporting to video via WebM and MP4 muxers.</p>
+
+      <!-- IMAGES: a still frame of the piano-roll visualisation. Strong thumbnail candidate. -->
+    `,
+  },
+
+  {
+    id: 'musescore-video-exporter',
+    title: 'Score Util',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: ['music'],
+    relatedProjects: ['midi-creative-export', '24-piano-reveries'],
+    description: 'Command-line tools that turn MuseScore files into audio and video, with per-channel volume control and multiple audio tracks.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p><strong>Score Util</strong> is a set of command-line tools for getting finished audio and video
+      out of MuseScore files. It ships three commands: <code>create-musescore-audio</code> for generating
+      audio with configurable per-channel volumes, <code>create-musescore-video</code> for rendering the
+      score as video, and <code>score-util</code> for producing videos with alternate audio tracks.</p>
+
+      <p>Written in JavaScript, rendering score pages through <code>resvg</code>. Built to publish my own
+      compositions without rebuilding the export by hand each time.</p>
+    `,
+  },
+
+  {
+    id: 'obsidian-exporter',
+    title: 'Obsidian Collection Exporter',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: ['print'],
+    relatedProjects: ['um-olhar-sobre-a-vida', 'devaneios-emocionais-milao'],
+    description: 'A script that turns a filtered, ordered selection of Obsidian notes into a typeset PDF — a manuscript out of a folder of notes.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A Python tool that exports a filtered, ordered set of Obsidian notes into a single styled PDF,
+      via Pandoc and XeLaTeX. It prompts step by step for which notes to include and in what order, so a
+      collection scattered across a vault comes out as one typeset document.</p>
+
+      <p>Built to get manuscripts out of the vault my
+      <a href="../projects.html#um-olhar-sobre-a-vida">short stories</a> and
+      <a href="../projects.html#devaneios-emocionais-milao">reveries</a> are written in.</p>
+    `,
+  },
+
+  {
+    id: 'obsidian-kanban',
+    title: 'Kanban for Obsidian',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Complete',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: [],
+    relatedProjects: ['obsidian-exporter'],
+    description: 'A deliberately minimal Kanban board plugin for Obsidian, written after the existing ones did more than I wanted.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A minimal Kanban board plugin for Obsidian, written in TypeScript with no dependencies and no
+      desktop-only requirement. It does the one thing its name promises and leaves the rest of the vault
+      alone.</p>
+
+      <!-- IMAGES: a screenshot of the board in Obsidian. -->
+    `,
+  },
+
+  {
+    id: 'claude-local-dashboard',
+    title: 'Claude Agent Dashboard',
+    discipline: 'tech',
+    category: 'development',
+    year: 2026,
+    status: 'Complete',
+    roles: ['Developer'],
+    roleCategories: ['Engineer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'A local dashboard that scans a folder tree for Claude agent configurations and shows every one it finds in a single page.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>A small local utility for keeping track of Claude Code agents across many repositories. A shell
+      script walks a set of root folders, finds every <code>CLAUDE.md</code> and agent definition beneath
+      them, and writes the results to JSON; a single static HTML page reads that file and renders the lot.</p>
+
+      <p>No server and no dependencies — a scan script and one page.</p>
+    `,
+  },
+
+  {
+    id: 'personal-website',
+    title: 'This Website',
+    discipline: 'tech',
+    category: 'design',
+    year: 2026,
+    status: 'Ongoing',
+    roles: ['Developer', 'Designer'],
+    roleCategories: ['Engineer', 'Designer'],
+    tags: [],
+    relatedProjects: [],
+    description: 'The site you are reading — hand-written HTML, CSS and JavaScript with no framework, no bundler and no build step.',
+    url: '#',
+    thumbnail: '',
+    coverPosition: 'center center',
+    featured: false,
+    content: `
+      <p>This site is built without a framework, a bundler or a build step: hand-written HTML, CSS and
+      vanilla JavaScript, deployed straight to GitHub Pages.</p>
+
+      <p>Every project on it comes from a single data file, so the discipline pages, the filtered project
+      list and the cross-links between entries are all generated from one source. The design system is a
+      small set of CSS custom properties — one accent colour per discipline — with light and dark themes
+      that follow the operating system until you say otherwise.</p>
     `,
   },
 

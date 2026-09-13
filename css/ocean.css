@@ -1,0 +1,266 @@
+/* =========================================
+   OCEAN PAGE — module index + detail sections
+   Reuses .discipline-bar-* and .pill-nav from
+   discipline.css; everything else lives here.
+   ========================================= */
+
+.ocean-page {
+  min-height: 100vh;
+  padding-top: var(--nav-height);
+}
+
+/* ---- Sticky bar ---- */
+
+.ocean-sticky-bar {
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 90;
+  background-color: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: var(--s2) var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+@media (max-width: 768px) {
+  .ocean-sticky-bar { padding: var(--s2); }
+}
+
+/* ---- Intro ---- */
+
+.ocean-intro {
+  padding: var(--s7) var(--s4) var(--s5);
+  border-bottom: 1px solid var(--border);
+}
+
+.ocean-intro-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.ocean-intro-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s2);
+}
+
+.ocean-intro-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: var(--s3);
+}
+
+.ocean-intro-lead {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  max-width: 60ch;
+}
+
+@media (max-width: 768px) {
+  .ocean-intro { padding: var(--s5) var(--s2) var(--s4); }
+}
+
+/* ---- Module grid (index of cards) ---- */
+
+.module-grid-wrap {
+  padding: var(--s5) var(--s4);
+  border-bottom: 1px solid var(--border);
+}
+
+.module-grid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s2);
+}
+
+.module-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--s3);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--module-accent, var(--accent));
+  border-radius: 3px;
+  transition: transform 200ms var(--ease), border-color 200ms var(--ease),
+              background-color 200ms var(--ease);
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+  background-color: var(--surface-2);
+  border-color: var(--module-accent, var(--accent));
+  border-left-color: var(--module-accent, var(--accent));
+}
+
+.module-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2);
+}
+
+.module-card-name {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.module-card-text {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+}
+
+/* ---- Status pill ---- */
+
+.module-status {
+  font-family: var(--font-mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.module-status--stable {
+  border-color: color-mix(in srgb, var(--module-accent, var(--accent)) 50%, transparent);
+  color: var(--module-accent, var(--accent));
+}
+
+/* ---- Module detail sections ---- */
+
+.module-sections {
+  display: flex;
+  flex-direction: column;
+}
+
+.module-section {
+  padding: var(--s6) var(--s4);
+  border-bottom: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  scroll-margin-top: calc(var(--nav-height) + 96px);
+  transition: border-color 250ms var(--ease), background-color 250ms var(--ease);
+}
+
+.module-section:target,
+.module-section:hover {
+  border-left-color: var(--module-accent, var(--accent));
+  background: color-mix(in srgb, var(--module-accent, var(--accent)) 4%, transparent);
+}
+
+.module-section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.module-section-head {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  margin-bottom: var(--s1);
+}
+
+.module-section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--module-accent, var(--accent));
+}
+
+.module-section-text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--s3);
+}
+
+.module-section-tagline {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--text);
+  max-width: 70ch;
+  margin-bottom: var(--s4);
+}
+
+/* ---- Feature list ---- */
+
+.module-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--s3);
+  list-style: none;
+  padding: 0;
+}
+
+.module-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: var(--s2);
+  border-left: 1px solid var(--border);
+}
+
+.module-feature-title {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.module-feature-detail {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.module-project-link {
+  margin-top: var(--s4);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.module-project-link + .module-project-link {
+  margin-top: var(--s1);
+}
+
+.module-project-link a {
+  color: var(--module-accent, var(--accent));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--module-accent, var(--accent)) 40%, transparent);
+  transition: text-decoration-color 200ms var(--ease);
+}
+
+.module-project-link a:hover {
+  text-decoration-color: var(--module-accent, var(--accent));
+}
+
+@media (max-width: 768px) {
+  .module-grid-wrap { padding: var(--s4) var(--s2); }
+  .module-section { padding: var(--s5) var(--s2); }
+}

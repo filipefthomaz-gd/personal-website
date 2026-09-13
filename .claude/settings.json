@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Read(//Users/filipefthomaz/Documents/GitHub/**)",
+      "Bash(grep -o '<p[^>]*>[^<]\\\\{30,200\\\\}</p>' war-doctor-website/index.html)",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \" /projects.html -> %{http_code}\\\\n\" http://127.0.0.1:4321/projects.html)",
+      "Bash(curl -s -o /dev/null -w \" /projects.html -> %{http_code}\\\\n\" \"http://[::1]:4321/projects.html\")",
+      "Bash(ps -o command= -p 83328)",
+      "Bash(lsof -nP -iTCP:8787 -sTCP:LISTEN)",
+      "Bash(cd ~/Documents/GitHub && echo \"=== conlex ===\"; sed -n '1,40p' conlex/README.md *)",
+      "Bash(node --check data/work.js)"
     ]
   }
 }
